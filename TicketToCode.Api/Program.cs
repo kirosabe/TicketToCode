@@ -1,3 +1,7 @@
+// Connection to database
+using Microsoft.EntityFrameworkCore;
+using TicketToCode.Core.Data;
+
 using TicketToCode.Api.Endpoints;
 using TicketToCode.Api.Services;
 using TicketToCode.Core.Data;
@@ -8,7 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 // Default mapping is /openapi/v1.json
 builder.Services.AddOpenApi();
- 
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
+
+
 builder.Services.AddSingleton<IDatabase, Database>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 
