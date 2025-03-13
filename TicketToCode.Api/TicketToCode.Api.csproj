@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TicketToCode.Core\TicketToCode.Core.csproj" />
+<ProjectReference Include="..\BlazorTicketCode\BlazorTicketCode.csproj" />
   </ItemGroup>
 
 </Project>
