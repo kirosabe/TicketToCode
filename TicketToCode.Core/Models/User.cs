@@ -8,6 +8,8 @@ public class User
     public string Role { get; set; } = UserRoles.User; // Default role
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    private User() { }
+
     public User(string name, string pwd)
     {
         Username = name;
