@@ -1,4 +1,7 @@
-﻿namespace TicketToCode.Api.Endpoints;
+﻿using Microsoft.EntityFrameworkCore;
+using TicketToCode.Core.Models;
+
+namespace TicketToCode.Api.Endpoints;
 public class GetAllEvents : IEndpoint
 {
     // Mapping
@@ -18,17 +21,17 @@ public class GetAllEvents : IEndpoint
     );
 
     //Logic
-    private static List<Response> Handle(IDatabase db)
+    private static async Task<List<Response>> Handle(AppDbContext db)
     {
-        return db.Events
-            .Select(item => new Response(
-                Id: item.Id,
-                Name: item.Name,
-                Description: item.Description,
-                Type: item.Type,
-                Start: item.StartTime,
-                End: item.EndTime,
-                MaxAttendees: item.MaxAttendees
-            )).ToList();
+        var events = await db.Events.ToListAsync();
+        return events.Select(item => new Response(
+            Id: item.Id,
+            Name: item.Name,
+            Description: item.Description,
+            Type: item.Type,
+            Start: item.StartTime,
+            End: item.EndTime,
+            MaxAttendees: item.MaxAttendees
+        )).ToList();
     }
 }

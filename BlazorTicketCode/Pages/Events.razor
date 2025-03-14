@@ -1,0 +1,57 @@
+﻿@page "/events" 
+@inject HttpClient Http
+
+<h3>Events</h3>
+
+@if (events == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <ul>
+        @foreach (var eventItem in events)
+        {
+            <li>@eventItem.Name - @eventItem.Start.ToString("f")</li>
+        }
+    </ul>
+}
+
+@code {
+    private List<EventResponse> events;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await Http.GetAsync("https://localhost:7206/events");
+            if (response.IsSuccessStatusCode)
+            {
+                events = await response.Content.ReadFromJsonAsync<List<EventResponse>>();
+            }
+        }
+        catch (Exception)
+        {
+            // Ignorera fel
+        }
+    }
+
+    public class EventResponse
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public EventType Type { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public int MaxAttendees { get; set; }
+    }
+
+    public enum EventType
+    {
+        Concert,
+        Festival,
+        Theatre,
+        Other
+    }
+}
