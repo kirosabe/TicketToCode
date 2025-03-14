@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 ﻿using Microsoft.AspNetCore.Mvc;
+=======
+﻿using Microsoft.EntityFrameworkCore;
+using TicketToCode.Core.Models;
+>>>>>>> origin/main
 
 namespace TicketToCode.Api.Endpoints;
 public class GetAllEvents : IEndpoint
@@ -20,18 +25,22 @@ public class GetAllEvents : IEndpoint
     );
 
     //Logic
+<<<<<<< HEAD
     private static List<Response> Handle([FromServices] IDatabase db)
 
+=======
+    private static async Task<List<Response>> Handle(AppDbContext db)
+>>>>>>> origin/main
     {
-        return db.Events
-            .Select(item => new Response(
-                Id: item.Id,
-                Name: item.Name,
-                Description: item.Description,
-                Type: item.Type,
-                Start: item.StartTime,
-                End: item.EndTime,
-                MaxAttendees: item.MaxAttendees
-            )).ToList();
+        var events = await db.Events.ToListAsync();
+        return events.Select(item => new Response(
+            Id: item.Id,
+            Name: item.Name,
+            Description: item.Description,
+            Type: item.Type,
+            Start: item.StartTime,
+            End: item.EndTime,
+            MaxAttendees: item.MaxAttendees
+        )).ToList();
     }
 }
