@@ -1,4 +1,6 @@
-﻿namespace TicketToCode.Api.Endpoints;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace TicketToCode.Api.Endpoints;
 public class GetAllEvents : IEndpoint
 {
     // Mapping
@@ -18,7 +20,8 @@ public class GetAllEvents : IEndpoint
     );
 
     //Logic
-    private static List<Response> Handle(IDatabase db)
+    private static List<Response> Handle([FromServices] IDatabase db)
+
     {
         return db.Events
             .Select(item => new Response(
