@@ -1,0 +1,88 @@
+﻿
+@page "/signup"
+@using TicketToCode.Core.Models
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6"> 
+            <div class="bg-light p-4 rounded-4 shadow">
+
+                <h2 class="text-center">Sign up!</h2>
+            <EditForm Model="@user" OnValidSubmit="RegisterUser">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                
+                <div class="mb-4">
+                    <label for="Username" class="form-label">Username:</label>
+                    <InputText id="Username" @bind-Value="@user.Username" class="form-control w-75 mx-auto" required />
+                </div>
+
+                <div class="mb-4">
+                    <label for="Password" class="form-label">Password:</label>
+                    <InputText id="Password" type="password" @bind-Value="@user.PasswordHash" class="form-control w-75 mx-auto" required  />
+                </div>
+
+                <div class="d-flex flex-column align-items-center mt-4">
+                    <button type="submit" class="btn btn-success w-50">Create account</button>
+                    <button @onclick="NavigateToLogin" class="btn btn-outline-primary btn-sm mt-4 w-auto">Already a member? Login Here</button>
+                </div>
+            </EditForm>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <p class="text-danger">@errorMessage</p>
+}
+        </div>
+    </div>
+</div>
+</div>
+@code {
+
+    public void NavigateToLogin()
+    {
+ 
+        Navigation.NavigateTo("/login");
+    }
+    private User user = new User();
+    private string errorMessage = string.Empty;
+
+    private async Task RegisterUser()
+    {
+   
+
+        try
+        {
+            var request = new { Username = user.Username, Password = user.PasswordHash };
+            var response = await Http.PostAsJsonAsync("auth/register", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var registerResponse = await response.Content.ReadFromJsonAsync<RegisterResponse>();
+                Navigation.NavigateTo("/login");
+            }
+            else
+            {
+                var errorText = await response.Content.ReadAsStringAsync();
+                errorMessage = $"Fel: {errorText}";
+            }
+        }
+        catch (HttpRequestException httpEx)
+        {
+            errorMessage = $"HTTP-fel: {httpEx.Message}";
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Ett oväntat fel: {ex.Message}";
+        }
+    }
+
+    private class RegisterResponse
+    {
+        public string Username { get; set; }
+        public string Role { get; set; }
+        
+    }
+}
