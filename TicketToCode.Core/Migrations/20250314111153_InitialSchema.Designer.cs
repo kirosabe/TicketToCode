@@ -12,7 +12,7 @@ using TicketToCode.Core.Data;
 namespace TicketToCode.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250314102626_InitialSchema")]
+    [Migration("20250314111153_InitialSchema")]
     partial class InitialSchema
     {
         /// <inheritdoc />
@@ -120,7 +120,7 @@ namespace TicketToCode.Core.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            PasswordHash = "$2a$11$JyuqKfWwJComLQdAgl89I.ra43Hq0rlKDVUgAiKprkSqoF9vMPa5e",
+                            PasswordHash = "Solenskiner123",
                             Role = "Admin",
                             Username = "Admin1"
                         },
@@ -128,7 +128,7 @@ namespace TicketToCode.Core.Migrations
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            PasswordHash = "$2a$11$3tiMVpElMc0y2wZR4ox0Yuzvax4TOmkTcJAEgsiwW0XKvBUZcfN66",
+                            PasswordHash = "Solenskiner123",
                             Role = "User",
                             Username = "User1"
                         });

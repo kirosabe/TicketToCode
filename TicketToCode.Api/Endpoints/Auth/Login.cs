@@ -24,10 +24,10 @@ public class Login : IEndpoint
     private static async Task<Results<Ok<Response>, BadRequest<string>>> Handle(
         HttpContext context,
         [FromBody] Request request,
-        [FromServices] AppDbContext db)
+        [FromServices] IAuthService authService)
     {
-        var user = await db.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
-        if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+        var user = authService.Login(request.Username, request.Password);
+        if (user == null)
         {
             return TypedResults.BadRequest("Invalid username or password");
         }

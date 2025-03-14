@@ -62,8 +62,8 @@ namespace TicketToCode.Core.Migrations
                 columns: new[] { "Id", "CreatedAt", "PasswordHash", "Role", "Username" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "$2a$11$JyuqKfWwJComLQdAgl89I.ra43Hq0rlKDVUgAiKprkSqoF9vMPa5e", "Admin", "Admin1" },
-                    { 2, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "$2a$11$3tiMVpElMc0y2wZR4ox0Yuzvax4TOmkTcJAEgsiwW0XKvBUZcfN66", "User", "User1" }
+                    { 1, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Solenskiner123", "Admin", "Admin1" },
+                    { 2, new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), "Solenskiner123", "User", "User1" }
                 });
         }
 
