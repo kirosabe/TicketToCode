@@ -21,7 +21,7 @@ namespace TicketToCode.Core.Data
                 {
                     Id = 1,
                     Username = "Admin1",
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Solenskiner123"),
+                    PasswordHash = "Solenskiner123",
                     Role = UserRoles.Admin,
                     CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                 },
@@ -29,7 +29,7 @@ namespace TicketToCode.Core.Data
                 {
                     Id = 2,
                     Username = "User1",
-                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Solenskiner123"),
+                    PasswordHash = "Solenskiner123",
                     Role = UserRoles.User,
                     CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                 }

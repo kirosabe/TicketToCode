@@ -12,8 +12,8 @@ using TicketToCode.Core.Data;
 namespace TicketToCode.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250312154102_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250314102626_InitialSchema")]
+    partial class InitialSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,6 +56,38 @@ namespace TicketToCode.Core.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Events");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "En magisk kväll med Coldplay på Friends Arena",
+                            EndTime = new DateTime(2025, 5, 10, 21, 0, 0, 0, DateTimeKind.Utc),
+                            MaxAttendees = 50000,
+                            Name = "Livekonsert: Coldplay",
+                            StartTime = new DateTime(2025, 5, 10, 18, 0, 0, 0, DateTimeKind.Utc),
+                            Type = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Upptäck smaker från hela världen på en helg fylld med mat",
+                            EndTime = new DateTime(2025, 6, 15, 17, 0, 0, 0, DateTimeKind.Utc),
+                            MaxAttendees = 300,
+                            Name = "Matfestival 2025",
+                            StartTime = new DateTime(2025, 6, 15, 9, 0, 0, 0, DateTimeKind.Utc),
+                            Type = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Programmerare tävlar om att skapa den bästa AI-lösningen",
+                            EndTime = new DateTime(2025, 5, 10, 21, 0, 0, 0, DateTimeKind.Utc),
+                            MaxAttendees = 150,
+                            Name = "Hackathon AI Challenge",
+                            StartTime = new DateTime(2025, 5, 10, 18, 0, 0, 0, DateTimeKind.Utc),
+                            Type = 3
+                        });
                 });
 
             modelBuilder.Entity("TicketToCode.Core.Models.User", b =>
@@ -70,7 +102,6 @@ namespace TicketToCode.Core.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
@@ -78,12 +109,29 @@ namespace TicketToCode.Core.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            PasswordHash = "$2a$11$JyuqKfWwJComLQdAgl89I.ra43Hq0rlKDVUgAiKprkSqoF9vMPa5e",
+                            Role = "Admin",
+                            Username = "Admin1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            PasswordHash = "$2a$11$3tiMVpElMc0y2wZR4ox0Yuzvax4TOmkTcJAEgsiwW0XKvBUZcfN66",
+                            Role = "User",
+                            Username = "User1"
+                        });
                 });
 #pragma warning restore 612, 618
         }
