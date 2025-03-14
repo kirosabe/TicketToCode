@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TicketToCode.Core.Models;
+using BCrypt.Net;
 
 namespace TicketToCode.Core.Data
 {

@@ -1,4 +1,6 @@
-﻿namespace TicketToCode.Api.Endpoints;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace TicketToCode.Api.Endpoints;
 public class CreateEvent : IEndpoint
 {
     // Mapping
@@ -20,7 +22,7 @@ public class CreateEvent : IEndpoint
     public record Response(int id);
 
     //Logic
-    private static async Task<Ok<Response>> Handle(Request request, AppDbContext db)
+    private static async Task<Ok<Response>> Handle(Request request, [FromServices] AppDbContext db)
     {
         // Todo, use a better constructor that enforces setting all necessary properties
         var ev = new Event();
