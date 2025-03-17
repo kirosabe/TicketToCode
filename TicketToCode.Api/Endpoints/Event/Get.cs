@@ -23,12 +23,11 @@ public class GetEvent : IEndpoint
 
 
     //Logic
-    private static Response Handle([AsParameters] Request request, [FromServices] IDatabase db)
+    private static Response Handle([AsParameters] Request request, [FromServices] AppDbContext db)
 
     {
-        var ev = db.Events.Find(ev => ev.Id == request.Id);
+        var ev = db.Events.FirstOrDefault(ev => ev.Id == request.Id);
 
-        // map ev to response dto
         var response = new Response(
             Id: ev.Id,
             Name: ev.Name,
