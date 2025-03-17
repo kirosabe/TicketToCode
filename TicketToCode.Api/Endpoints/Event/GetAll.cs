@@ -20,7 +20,11 @@ public class GetAllEvents : IEndpoint
         DateTime End,
         int MaxAttendees
     );
+
+    //Logic
+
     private static async Task<List<Response>> Handle(AppDbContext db)
+
     {
         var events = await db.Events.ToListAsync();
         return events.Select(item => new Response(
