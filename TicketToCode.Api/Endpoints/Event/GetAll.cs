@@ -1,9 +1,6 @@
-
-﻿using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Mvc;
 ﻿using Microsoft.EntityFrameworkCore;
 using TicketToCode.Core.Models;
-
 
 namespace TicketToCode.Api.Endpoints;
 public class GetAllEvents : IEndpoint

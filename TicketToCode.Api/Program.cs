@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowBlazorClient",
-        policy => policy.WithOrigins("https://localhost:7075") // Ändra till din Blazor URL
+        policy => policy.WithOrigins("https://localhost:7075") // ï¿½ndra till din Blazor URL
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials());
