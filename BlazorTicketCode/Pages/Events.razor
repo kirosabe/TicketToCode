@@ -13,7 +13,7 @@ else
     <div class="events-container">
         @foreach (var eventItem in events)
         {
-            <div class="event-card" @onclick="() => ToggleEventDetails(eventItem)">
+            <div class="event-card" @onclick="(e) => ToggleEventDetails(e, eventItem)">
                 <h4>@eventItem.Name</h4>
                 <p>@eventItem.Start.ToString("f")</p>
                 @if (eventItem.ShowDetails)
@@ -52,9 +52,22 @@ else
         }
     }
 
-    private void ToggleEventDetails(EventResponse eventItem)
+    private void ToggleEventDetails(MouseEventArgs e, EventResponse eventItem)
     {
+        foreach (var ev in events)
+        {
+            if (ev.Id != eventItem.Id)
+            {
+                ev.ShowDetails = false;
+            }
+        }
+
         eventItem.ShowDetails = !eventItem.ShowDetails;
+    }
+
+    private void CloseDetails(MouseEventArgs e, EventResponse eventItem)
+    {
+        eventItem.ShowDetails = false;
     }
 
     public class EventResponse
