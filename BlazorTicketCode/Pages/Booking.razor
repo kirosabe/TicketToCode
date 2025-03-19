@@ -1,18 +1,52 @@
 ﻿@page "/booking"
+@inject HttpClient Http
 
-<PageTitle>Counter</PageTitle>
+<PageTitle>Book now</PageTitle>
 
-<h1>Counter</h1>
+<h1>Book now</h1>
 
-<p role="status">Current count: @currentCount</p>
+<EditForm Model="@booking">
+    <div class="mb-3">
+        <label for="Event" class="form-label">Event:</label>
+        <InputSelect id="Event" @bind-Value="@booking.EventId" class="form-control" required>
+            <option value="">Select an event</option>
+            @foreach (var ev in events)
+            {
+                <option value="@ev.Id">@ev.Name</option>
+            }
+        </InputSelect>
+    </div>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+    <button type="submit" class="btn btn-primary">To payment</button>
+</EditForm>
+
 
 @code {
-    private int currentCount = 0;
+    private BookingModel booking = new BookingModel();
+    private List<EventModel> events = new List<EventModel>();
 
-    private void IncrementCount()
+    private class BookingModel
     {
-        currentCount++;
+        public int EventId { get; set; }
+    }
+    private class EventModel
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await Http.GetAsync("https://localhost:7206/events");
+            if (response.IsSuccessStatusCode)
+            {
+                events = await response.Content.ReadFromJsonAsync<List<EventModel>>() ?? new List<EventModel>();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching events: {ex.Message}");
+        }
     }
 }
