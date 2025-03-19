@@ -1,8 +1,12 @@
 ﻿@page "/events" 
 @inject HttpClient Http
 
-
 <h3></h3>
+<div class="filters">
+    <button @onclick="@(async () => await SortEvents("asc"))">Närmast i tid</button>
+    <button @onclick="@(async () => await SortEvents("desc"))">Längst bort i tid</button>
+
+</div>
 
 @if (events == null)
 {
@@ -33,23 +37,33 @@ else
 @code {
     private List<EventResponse> events;
 
+    private string sortOrder = "asc";
+
     protected override async Task OnInitializedAsync()
+    {
+        
+            await LoadEvents(sortOrder);
+    }
+
+    private async Task LoadEvents(string sortOrder)
     {
         try
         {
-            var response = await Http.GetAsync("https://localhost:7206/events");
+            var response = await Http.GetAsync($"https://localhost:7206/events?sortOrder={sortOrder}");
             if (response.IsSuccessStatusCode)
             {
                 events = await response.Content.ReadFromJsonAsync<List<EventResponse>>();
-                foreach (var eventItem in events)
-                {
-                    eventItem.ShowDetails = false;
-                }
             }
         }
         catch (Exception)
-        {  
+        {
         }
+    }
+
+    private async Task SortEvents(string order)
+    {
+        sortOrder = order;
+        await LoadEvents(order); 
     }
 
     private void ToggleEventDetails(EventResponse eventItem)
