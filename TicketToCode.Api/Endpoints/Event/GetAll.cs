@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 ﻿using Microsoft.EntityFrameworkCore;
 using TicketToCode.Core.Models;
 
@@ -21,7 +22,9 @@ public class GetAllEvents : IEndpoint
     );
 
     //Logic
+
     private static async Task<List<Response>> Handle(AppDbContext db)
+
     {
         var events = await db.Events.ToListAsync();
         return events.Select(item => new Response(

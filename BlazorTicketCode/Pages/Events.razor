@@ -1,20 +1,33 @@
 ﻿@page "/events" 
 @inject HttpClient Http
 
-<h3>Events</h3>
+
+<h3></h3>
 
 @if (events == null)
 {
-    <p><em>Loading...</em></p>
+    <p><em>Laddar...</em></p>
 }
 else
 {
-    <ul>
+    <div class="events-container">
         @foreach (var eventItem in events)
         {
-            <li>@eventItem.Name - @eventItem.Start.ToString("f")</li>
+            <div class="event-card" @onclick="() => ToggleEventDetails(eventItem)">
+                <h4>@eventItem.Name</h4>
+                <p>@eventItem.Start.ToString("f")</p>
+                @if (eventItem.ShowDetails)
+                {
+                    <div class="event-details">
+                        <p>@eventItem.Description</p>
+                        <div class="event-footer">
+                            <a href='https://localhost:7075/events'> <button class="btn-register">Biljetter</button></a> <!-- Replace link -->
+                        </div>
+                    </div>
+                }
+            </div>
         }
-    </ul>
+    </div>
 }
 
 @code {
@@ -28,12 +41,35 @@ else
             if (response.IsSuccessStatusCode)
             {
                 events = await response.Content.ReadFromJsonAsync<List<EventResponse>>();
+                foreach (var eventItem in events)
+                {
+                    eventItem.ShowDetails = false;
+                }
             }
         }
         catch (Exception)
-        {
-            // Ignorera fel
+        {  
         }
+    }
+
+    private void ToggleEventDetails(EventResponse eventItem)
+    {
+        if (!eventItem.ShowDetails)
+        {
+            foreach (var ev in events)
+            {
+                if (ev != eventItem)
+                {
+                    ev.ShowDetails = false;
+                }
+            }
+            eventItem.ShowDetails = true;
+        }
+    }
+    
+    private void CloseDetails(EventResponse eventItem)
+    {
+        eventItem.ShowDetails = false;
     }
 
     public class EventResponse
@@ -45,6 +81,7 @@ else
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public int MaxAttendees { get; set; }
+        public bool ShowDetails { get; set; }
     }
 
     public enum EventType

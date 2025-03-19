@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TicketToCode.Core.Models;
+using BCrypt.Net;
 
 namespace TicketToCode.Core.Data
 {
@@ -20,7 +21,7 @@ namespace TicketToCode.Core.Data
                 {
                     Id = 1,
                     Username = "Admin1",
-                    PasswordHash = "Solenskiner123",
+                    PasswordHash = "$2a$11$oyZpd6ltbGoVcWagO8VPPe4QOj4FUTdcU/ROnBcVyRBmtANBznx1W",
                     Role = UserRoles.Admin,
                     CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                 },
@@ -28,7 +29,7 @@ namespace TicketToCode.Core.Data
                 {
                     Id = 2,
                     Username = "User1",
-                    PasswordHash = "Solenskiner123",
+                    PasswordHash = "$2a$11$oyZpd6ltbGoVcWagO8VPPe4QOj4FUTdcU/ROnBcVyRBmtANBznx1W",
                     Role = UserRoles.User,
                     CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                 }

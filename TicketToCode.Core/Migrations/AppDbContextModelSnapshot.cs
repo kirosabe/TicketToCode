@@ -117,7 +117,7 @@ namespace TicketToCode.Core.Migrations
                         {
                             Id = 1,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            PasswordHash = "Solenskiner123",
+                            PasswordHash = "$2a$11$oyZpd6ltbGoVcWagO8VPPe4QOj4FUTdcU/ROnBcVyRBmtANBznx1W",
                             Role = "Admin",
                             Username = "Admin1"
                         },
@@ -125,7 +125,7 @@ namespace TicketToCode.Core.Migrations
                         {
                             Id = 2,
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            PasswordHash = "Solenskiner123",
+                            PasswordHash = "$2a$11$oyZpd6ltbGoVcWagO8VPPe4QOj4FUTdcU/ROnBcVyRBmtANBznx1W",
                             Role = "User",
                             Username = "User1"
                         });

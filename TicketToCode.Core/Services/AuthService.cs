@@ -15,9 +15,9 @@ public interface IAuthService
 /// </summary>
 public class AuthService : IAuthService
 {
-    private readonly IDatabase _database;
+    private readonly AppDbContext _database;
 
-    public AuthService(IDatabase database)
+    public AuthService(AppDbContext database)
     {
         _database = database;
     }

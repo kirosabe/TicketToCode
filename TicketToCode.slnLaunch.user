@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "TicketToCode.Api\\TicketToCode.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "BlazorTicketCode\\BlazorTicketCode.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

@@ -1,4 +1,6 @@
-﻿namespace TicketToCode.Api.Endpoints;
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace TicketToCode.Api.Endpoints;
 public class GetEvent : IEndpoint
 {
     // Mapping
@@ -21,11 +23,11 @@ public class GetEvent : IEndpoint
 
 
     //Logic
-    private static Response Handle([AsParameters] Request request, IDatabase db)
-    {
-        var ev = db.Events.Find(ev => ev.Id == request.Id);
+    private static Response Handle([AsParameters] Request request, [FromServices] AppDbContext db)
 
-        // map ev to response dto
+    {
+        var ev = db.Events.FirstOrDefault(ev => ev.Id == request.Id);
+
         var response = new Response(
             Id: ev.Id,
             Name: ev.Name,
