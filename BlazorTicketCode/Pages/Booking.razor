@@ -1,4 +1,6 @@
-﻿@page "/booking"
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Web
+@page "/booking"
 @inject HttpClient Http
 
 <PageTitle>Book now</PageTitle>
@@ -6,6 +8,22 @@
 <h1>Book now</h1>
 
 <EditForm Model="@booking">
+
+	<DataAnnotationsValidator />
+	<ValidationSummary />
+
+    <div class="mb-3">
+        <label for="FirstName" class="form-label">First name:</label>
+        <InputText id="FirstName" @bind-Value="@booking.FirstName" class="form-control" required></InputText>
+    </div>
+    <div class="mb-3">
+        <label for="LastName" class="form-label">Last name:</label>
+        <InputText id="LastName" @bind-Value="@booking.LastName" class="form-control" required></InputText>
+    </div>
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email:</label>
+        <InputText id="Email" @bind-Value="@booking.Email" class="form-control" required></InputText>
+    </div>
 
     <div class="mb-3">
         <label for="Event" class="form-label">Event:</label>
@@ -18,6 +36,8 @@
         </InputSelect>
     </div>
 
+
+
     <button type="submit" class="btn btn-primary">To payment</button>
 </EditForm>
 
@@ -29,6 +49,9 @@
     private class BookingModel
     {
         public int EventId { get; set; }
+		public string FirstName { get; set; } = string.Empty;
+		public string LastName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
     }
     private class EventModel
     {
