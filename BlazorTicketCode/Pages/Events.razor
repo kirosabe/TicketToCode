@@ -13,7 +13,7 @@ else
     <div class="events-container">
         @foreach (var eventItem in events)
         {
-            <div class="event-card" @onclick="(e) => ToggleEventDetails(e, eventItem)">
+            <div class="event-card" @onclick="() => ToggleEventDetails(eventItem)">
                 <h4>@eventItem.Name</h4>
                 <p>@eventItem.Start.ToString("f")</p>
                 @if (eventItem.ShowDetails)
@@ -21,7 +21,7 @@ else
                     <div class="event-details">
                         <p>@eventItem.Description</p>
                         <div class="event-footer">
-                            <button class="btn-register">Biljetter</button>
+                            <a href='https://localhost:7075/events'> <button class="btn-register">Biljetter</button></a> <!-- Replace link -->
                         </div>
                     </div>
                 }
@@ -52,20 +52,22 @@ else
         }
     }
 
-    private void ToggleEventDetails(MouseEventArgs e, EventResponse eventItem)
+    private void ToggleEventDetails(EventResponse eventItem)
     {
-        foreach (var ev in events)
+        if (!eventItem.ShowDetails)
         {
-            if (ev.Id != eventItem.Id)
+            foreach (var ev in events)
             {
-                ev.ShowDetails = false;
+                if (ev != eventItem)
+                {
+                    ev.ShowDetails = false;
+                }
             }
+            eventItem.ShowDetails = true;
         }
-
-        eventItem.ShowDetails = !eventItem.ShowDetails;
     }
-
-    private void CloseDetails(MouseEventArgs e, EventResponse eventItem)
+    
+    private void CloseDetails(EventResponse eventItem)
     {
         eventItem.ShowDetails = false;
     }
