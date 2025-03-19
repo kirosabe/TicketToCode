@@ -1,7 +1,7 @@
 ﻿@page "/events" 
 @inject HttpClient Http
 
-<h3>Events</h3>
+<h3></h3>
 
 @if (events == null)
 {
@@ -9,12 +9,19 @@
 }
 else
 {
-    <ul>
-        @foreach (var eventItem in events)
-        {
-            <li>@eventItem.Name - @eventItem.Start.ToString("f")</li>
-        }
-    </ul>
+    <div class="events-container">
+            @foreach (var eventItem in events)
+            {
+                <div class="event-card">
+                    <h4>@eventItem.Name</h4>  
+                    <p>@eventItem.Start.ToString("f")</p>
+                    <p>@eventItem.Description</p>
+                    <div class="event-footer">
+                    <button class="btn-register">Biljetter</button>
+                    </div>
+                    </div>
+            }
+    </div>
 }
 
 @code {
@@ -31,8 +38,7 @@ else
             }
         }
         catch (Exception)
-        {
-            // Ignorera fel
+        {  
         }
     }
 
