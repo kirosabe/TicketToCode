@@ -18,25 +18,28 @@ namespace TicketToCode.Core.Services
             _database = database;
         }
 
-        public async Task<List<Event>> GetAllEventsAsync()
-        {
-            return await _database.Events.ToListAsync();
-        }
-
-        public async Task<List<Event>> GetSortedEventsAsync(string sortOrder)
+        public async Task<List<Event>> GetSortedEventsAsync(string? sortOrder = null)
         {
             var eventsQuery = _database.Events.AsQueryable();
 
-            if (sortOrder?.ToLower() == "asc")
+            if (string.IsNullOrEmpty(sortOrder))
+            {
+                return await eventsQuery.ToListAsync();
+            }
+
+            if (sortOrder.ToLower() == "asc")
             {
                 eventsQuery = eventsQuery.OrderBy(e => e.StartTime);
             }
-            else if (sortOrder?.ToLower() == "desc")
+            else
             {
                 eventsQuery = eventsQuery.OrderByDescending(e => e.StartTime);
             }
+            var sortedEvents = await eventsQuery.ToListAsync();
 
-            return await eventsQuery.ToListAsync();
+            Console.WriteLine($"Sort order: {sortOrder}, Events count: {sortedEvents.Count}");
+
+            return sortedEvents;
         }
     }
 }
