@@ -23,7 +23,7 @@
             </div>
             <div class="mb-3">
                 <label for="Phone" class="form-label">Phone number:</label>
-                <InputNumber id="Phone" @bind-Value="@booking.Phone" class="form-control" required></InputNumber>
+                <InputText id="Phone" @bind-Value="@booking.Phone" class="form-control" required></InputText>
             </div>
             <div class="mb-3">
                 <label for="Email" class="form-label">Email:</label>
@@ -43,7 +43,15 @@
                 <label for="Tickets" class="form-label">Number of tickets</label>
                 <InputNumber id="Tickets" @bind-Value="@booking.Tickets" class="form-control" required></InputNumber>
             </div>
-
+            <div class="mb-3">
+                <label for="PaymentMethod" class="form-label">Payment method:</label>
+                <InputSelect id="PaymentMethod" @bind-Value="@booking.PaymentMethod" class="form-control" required>
+                    <option value="">Select payment method</option>
+                    <option value="CreditCard">Credit Card</option>
+                    <option value="Swish">Swish</option>
+                    <option value="Invoice">Invoice</option>
+                </InputSelect>
+            </div>
             <button type="submit" class="btn btn-primary">Book your spot</button>
         </EditForm>
     </div>
@@ -53,15 +61,18 @@
 	private BookingModel booking = new BookingModel();
 	private List<EventModel> events = new List<EventModel>();
 
+    //Model for booking, should it be moved to core?
 	private class BookingModel
 	{
 		public int EventId { get; set; }
 		public string FirstName { get; set; } = string.Empty;
 		public string LastName { get; set; } = string.Empty;
-		public int Phone { get; set; }
+        public string Phone { get; set; }
 		public string Email { get; set; } = string.Empty;
 		public int Tickets { get; set; }
+		public string PaymentMethod { get; set; } = string.Empty;
 	}
+    //Model for events to work with API
 	private class EventModel
 	{
 		public int Id { get; set; }
