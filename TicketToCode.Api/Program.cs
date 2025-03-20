@@ -1,6 +1,7 @@
 // Connection to database
 using Microsoft.EntityFrameworkCore;
 using TicketToCode.Core.Data;
+using TicketToCode.Core.Services;
 
 using TicketToCode.Api.Endpoints;
 using TicketToCode.Api.Services;
@@ -11,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowBlazorClient",
-        policy => policy.WithOrigins("https://localhost:7075") // �ndra till din Blazor URL
+        policy => policy.WithOrigins("https://localhost:7075") 
                         .AllowAnyMethod()
                         .AllowAnyHeader()
                         .AllowCredentials());
@@ -27,6 +28,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<EventService>();
 
 // Add cookie authentication
 builder.Services.AddAuthentication("Cookies")
