@@ -1,0 +1,103 @@
+﻿@page "/admin/home"
+@inject NavigationManager Navigation
+@inject HttpClient Http
+
+<PageTitle>Homepage Admin</PageTitle>
+
+
+
+<div class="welcome-container">
+    <h1 class="display-4 fw-bold">Welcome Admin!</h1>
+    <p class="lead mb-4">Manage and create amazing events effortlessly.</p>
+    <button class="btn btn-primary btn-lg shadow-lg" @onclick="GoToCreateEvent">Create an Event</button>
+    <button class="btn btn-primary btn-lg shadow-lg" @onclick="ManageStatistics">Manage Statistics</button>
+</div>
+
+
+<section class="container mt-5">
+    <h2 class="text-center mb-4">Manage Upcoming Events</h2>
+    <div class="row">
+        @if (events == null)
+        {
+            <div class="col-12 text-center">
+                <p><em>Loading events...</em></p>
+            </div>
+        }
+        else
+        {
+            @foreach (var eventItem in events)
+            {
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card shadow-sm border-0 rounded-3">
+                        <div class="card-body">
+                            <h5 class="card-title">@eventItem.Name</h5>
+                            <p class="card-text">@eventItem.Description</p>
+                            <p class="text-muted"><small>@eventItem.Start.ToString("dd MMM yyyy")</small></p>
+                            <button class="btn btn-outline-dark btn-sm" @onclick="() => EditEvent(eventItem.Id)">Edit event</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</section>
+
+<!-- Footer Section -->
+<footer class="bg-dark text-white text-center py-4 mt-5">
+    <p>&copy; 2025 EventHub Admin | All rights reserved</p>
+</footer>
+
+@code {
+    private List<EventResponse> events;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await Http.GetAsync("https://localhost:7206/events");
+            if (response.IsSuccessStatusCode)
+            {
+                events = await response.Content.ReadFromJsonAsync<List<EventResponse>>();
+            }
+        }
+        catch (Exception)
+        {
+            // Ignorera fel
+        }
+    }
+
+    private void ManageStatistics()
+    {
+        Navigation.NavigateTo("/statistics");
+    }
+
+    private void GoToCreateEvent()
+    {
+        Navigation.NavigateTo("/create");
+    }
+
+    private void EditEvent(int id)
+    {
+        Navigation.NavigateTo($"/edit/event/{id}");
+    }
+
+    public class EventResponse
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public EventType Type { get; set; }
+        public DateTime Start { get; set; }
+        public DateTime End { get; set; }
+        public int MaxAttendees { get; set; }
+        public string ImageUrl { get; set; } 
+    }
+
+    public enum EventType
+    {
+        Concert,
+        Festival,
+        Theatre,
+        Other
+    }
+}
