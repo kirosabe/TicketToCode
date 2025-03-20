@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 ﻿using Microsoft.EntityFrameworkCore;
 using TicketToCode.Core.Models;
+using TicketToCode.Core.Services;
 
 namespace TicketToCode.Api.Endpoints;
 public class GetAllEvents : IEndpoint
@@ -22,11 +23,11 @@ public class GetAllEvents : IEndpoint
     );
 
     //Logic
-
-    private static async Task<List<Response>> Handle(AppDbContext db)
-
+    private static async Task<List<Response>> Handle(
+        [FromQuery] string? sortOrder,
+        EventService eventService)
     {
-        var events = await db.Events.ToListAsync();
+        var events = await eventService.GetSortedEventsAsync(sortOrder);
         return events.Select(item => new Response(
             Id: item.Id,
             Name: item.Name,
