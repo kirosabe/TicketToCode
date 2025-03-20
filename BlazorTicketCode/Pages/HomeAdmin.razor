@@ -2,15 +2,16 @@
 @inject NavigationManager Navigation
 @inject HttpClient Http
 
-<PageTitle>Golden ticket - Admin</PageTitle>
+<PageTitle>Homepage Admin</PageTitle>
 
 
 
 <div class="welcome-container">
-        <h1 class="display-4 fw-bold">Welcome Admin!</h1>
-        <p class="lead mb-4">Manage and create amazing events effortlessly.</p>
-        <button class="btn btn-primary btn-lg shadow-lg" @onclick="GoToCreateEvent">Create an Event</button>
-    </div>
+    <h1 class="display-4 fw-bold">Welcome Admin!</h1>
+    <p class="lead mb-4">Manage and create amazing events effortlessly.</p>
+    <button class="btn btn-primary btn-lg shadow-lg" @onclick="GoToCreateEvent">Create an Event</button>
+    <button class="btn btn-primary btn-lg shadow-lg" @onclick="ManageStatistics">Manage Statistics</button>
+</div>
 
 
 <section class="container mt-5">
@@ -63,6 +64,11 @@
         {
             // Ignorera fel
         }
+    }
+
+    private void ManageStatistics()
+    {
+        Navigation.NavigateTo("/statistics");
     }
 
     private void GoToCreateEvent()
