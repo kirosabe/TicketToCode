@@ -58,19 +58,19 @@
 </div>
 
 @code {
-	private BookingModel booking = new BookingModel();
-	private List<EventModel> events = new List<EventModel>();
+    private BookingModel booking = new BookingModel();
+    private List<EventModel> events = new List<EventModel>();
 
     //Model for booking, should it be moved to core?
-	private class BookingModel
-	{
-		public int EventId { get; set; }
-		public string FirstName { get; set; } = string.Empty;
-		public string LastName { get; set; } = string.Empty;
-        public string Phone { get; set; }
-		public string Email { get; set; } = string.Empty;
-		public int Tickets { get; set; }
-		public string PaymentMethod { get; set; } = string.Empty;
+    private class BookingModel
+    {
+        public int EventId { get; set; }
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string Phone { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public int Tickets { get; set; } = 1;
+        public string PaymentMethod { get; set; } = string.Empty;
 	}
     //Model for events to work with API
 	private class EventModel
