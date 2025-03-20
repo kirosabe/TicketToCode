@@ -22,10 +22,13 @@
                 <InputText id="LastName" @bind-Value="@booking.LastName" class="form-control" required></InputText>
             </div>
             <div class="mb-3">
+                <label for="Phone" class="form-label">Phone number:</label>
+                <InputNumber id="Phone" @bind-Value="@booking.Phone" class="form-control" required></InputNumber>
+            </div>
+            <div class="mb-3">
                 <label for="Email" class="form-label">Email:</label>
                 <InputText id="Email" @bind-Value="@booking.Email" class="form-control" required></InputText>
             </div>
-
             <div class="mb-3">
                 <label for="Event" class="form-label">Event:</label>
                 <InputSelect id="Event" @bind-Value="@booking.EventId" class="form-control" required>
@@ -35,6 +38,10 @@
                         <option value="@ev.Id">@ev.Name</option>
                     }
                 </InputSelect>
+            </div>
+            <div class="mb-3">
+                <label for="Tickets" class="form-label">Number of tickets</label>
+                <InputNumber id="Tickets" @bind-Value="@booking.Tickets" class="form-control" required></InputNumber>
             </div>
 
             <button type="submit" class="btn btn-primary">Book your spot</button>
@@ -51,7 +58,9 @@
 		public int EventId { get; set; }
 		public string FirstName { get; set; } = string.Empty;
 		public string LastName { get; set; } = string.Empty;
+		public int Phone { get; set; }
 		public string Email { get; set; } = string.Empty;
+		public int Tickets { get; set; }
 	}
 	private class EventModel
 	{
