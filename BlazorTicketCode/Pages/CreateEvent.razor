@@ -1,0 +1,122 @@
+﻿@using TicketToCode.Core.Models
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Web
+@page "/create"
+@inject HttpClient Http
+@inject NavigationManager Navigation
+
+<div class="create-container">
+    <h1>Create an event</h1>
+
+    <div class="form-container">
+
+<EditForm Model="@eventModel" OnValidSubmit="SubmitEvent">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name:</label>
+        <InputText id="Name" @bind-Value="@eventModel.Name" class="form-control" required></InputText>
+    </div>
+
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description:</label>
+        <InputText id="Description" @bind-Value="@eventModel.Description" class="form-control" required></InputText>
+    </div>
+
+    <div class="mb-3">
+        <label for="Type" class="form-label">Type of event:</label>
+                <InputSelect id="Type" @bind-Value="@eventModel.Type" class="form-select" required>
+                    @foreach (var type in Enum.GetValues<EventType>())
+                    {
+                        <option value="@type">@type</option>
+                    }
+                </InputSelect>
+
+                
+    </div>
+
+            <div class="mb-3">
+                <label for="StartTime" class="form-label">Start time:</label>
+                <InputText id="StartTime" @bind-Value="@startTimeString" type="datetime-local" class="form-control" required />
+            </div>
+
+            <div class="mb-3">
+                <label for="EndTime" class="form-label">End time:</label>
+                <InputText id="EndTime" @bind-Value="@endTimeString" type="datetime-local" class="form-control" required />
+            </div>
+ 
+    <div class="mb-3">
+        <label for="MaxAttendees" class="form-label">Max attendees:</label>
+        <InputNumber id="MaxAttendees" @bind-Value="@eventModel.MaxAttendees" class="form-control" required></InputNumber>
+    </div>
+
+    <button type="submit" class="btn btn-primary" disabled="@isLoading">
+        @(isLoading ? "Creating..." : "Create Event")
+    </button>
+
+    @if (errorMessage != null)
+    {
+        <p class="text-danger mt-2">@errorMessage</p>
+    }
+</EditForm>
+</div>
+</div>
+
+
+    @code {
+private EventRequest eventModel = new(); // Skapa en tom instans av modellen
+private bool isLoading = false;
+private string? errorMessage;
+
+    private string startTimeString = DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
+    private string endTimeString = DateTime.Now.AddHours(2).ToString("yyyy-MM-ddTHH:mm");
+
+private async Task SubmitEvent()
+{
+    isLoading = true;
+    errorMessage = null;
+
+        try
+        {
+            // Konvertera strängarna till DateTime innan API-anropet
+            eventModel.Start = DateTime.Parse(startTimeString);
+            eventModel.End = DateTime.Parse(endTimeString);
+
+            var response = await Http.PostAsJsonAsync("https://localhost:7206/events", eventModel);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var createdEvent = await response.Content.ReadFromJsonAsync<EventResponse>();
+                Navigation.NavigateTo("/admin/home");
+            }
+            else
+            {
+                errorMessage = "Failed to create event. Please try again.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"An error occurred: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private class EventRequest
+    {
+        public string Name { get; set; } = "";
+        public string Description { get; set; } = "";
+        public EventType Type { get; set; } = EventType.Other;
+        public DateTime Start { get; set; } = DateTime.Now;
+        public DateTime End { get; set; } = DateTime.Now.AddHours(2);
+        public int MaxAttendees { get; set; } = 100;
+    }
+
+    private class EventResponse
+    {
+        public int Id { get; set; }
+    }
+}
