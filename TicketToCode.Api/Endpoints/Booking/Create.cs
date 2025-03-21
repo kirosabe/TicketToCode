@@ -19,7 +19,6 @@ public class CreateBooking : IEndpoint
         PaymentMethod PaymentMethod
         );
 
-
     public record Response(int id);
 
     //Logic

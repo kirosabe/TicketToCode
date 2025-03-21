@@ -10,6 +10,7 @@ namespace TicketToCode.Core.Data
         public AppDbContext() { }
         public DbSet<Event> Events { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
         // Model for test data seeding
         // To use this model, add the following code in CMD from TicketToCode.API where appsettings.json is:
