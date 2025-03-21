@@ -3,14 +3,13 @@
 @using TicketToCode.Core.Models;
 @page "/booking/confirmation"
 @inject HttpClient Http
+@* Uses booking state to show details from booking *@
 @inject BookingState BookingState
 
 <PageTitle>Confirmation</PageTitle>
 
 @if (BookingState.CurrentBooking is not null)
 {
-
-
     <h1>Thank you for your booking @BookingState.CurrentBooking.FirstName @BookingState.CurrentBooking.LastName!</h1>
     <p>See details below:</p>
     <p><strong>Email:</strong> @BookingState.CurrentBooking.Email</p>

@@ -143,3 +143,7 @@ code {
     .btn-register:hover {
         cursor: pointer;
     }
+article {
+    padding: 0;
+    margin: 0;
+}
