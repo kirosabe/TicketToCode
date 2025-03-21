@@ -65,7 +65,7 @@
 
 
     @code {
-private EventRequest eventModel = new(); // Skapa en tom instans av modellen
+private EventRequest eventModel = new(); 
 private bool isLoading = false;
 private string? errorMessage;
 
@@ -79,7 +79,7 @@ private async Task SubmitEvent()
 
         try
         {
-            // Konvertera strängarna till DateTime innan API-anropet
+            
             eventModel.Start = DateTime.Parse(startTimeString);
             eventModel.End = DateTime.Parse(endTimeString);
 
