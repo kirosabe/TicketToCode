@@ -9,7 +9,6 @@ public class CreateBooking : IEndpoint
         .MapPost("/bookings", Handle)
         .WithSummary("Create booking");
     public record Request(
-        int BookingId,
         int EventId,
         string FirstName,
         string LastName,
@@ -19,14 +18,13 @@ public class CreateBooking : IEndpoint
         PaymentMethod PaymentMethod
         );
 
-    public record Response(int id);
+    public record Response(int BookingId);
 
     //Logic
     private static async Task<Ok<Response>> Handle(Request request, [FromServices] AppDbContext db)
     {
         var b = new Booking();
 
-        b.BookingId = request.BookingId;
         b.EventId = request.EventId;
         b.FirstName = request.FirstName;
         b.LastName = request.LastName;
@@ -35,7 +33,7 @@ public class CreateBooking : IEndpoint
         b.Tickets = request.Tickets;
         b.PaymentMethod = request.PaymentMethod;
 
-        //db.Bookings.Add(b);
+        db.Bookings.Add(b);
         await db.SaveChangesAsync();
         return TypedResults.Ok(new Response(b.BookingId));
     }
