@@ -2,39 +2,38 @@
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Web
 @page "/create"
+@page "/create/{EventId:int?}"
 @inject HttpClient Http
 @inject NavigationManager Navigation
 
 <div class="create-container">
-    <h1>Create an event</h1>
+    <h1>Create/Update event</h1>
 
     <div class="form-container">
 
-<EditForm Model="@eventModel" OnValidSubmit="SubmitEvent">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+        <EditForm Model="@eventModel" OnValidSubmit="SubmitEvent">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
 
-    <div class="mb-3">
-        <label for="Name" class="form-label">Name:</label>
-        <InputText id="Name" @bind-Value="@eventModel.Name" class="form-control" required></InputText>
-    </div>
+            <div class="mb-3">
+                <label for="Name" class="form-label">Name:</label>
+                <InputText id="Name" @bind-Value="@eventModel.Name" class="form-control" required></InputText>
+            </div>
 
-    <div class="mb-3">
-        <label for="Description" class="form-label">Description:</label>
-        <InputText id="Description" @bind-Value="@eventModel.Description" class="form-control" required></InputText>
-    </div>
+            <div class="mb-3">
+                <label for="Description" class="form-label">Description:</label>
+                <InputText id="Description" @bind-Value="@eventModel.Description" class="form-control" required></InputText>
+            </div>
 
-    <div class="mb-3">
-        <label for="Type" class="form-label">Type of event:</label>
+            <div class="mb-3">
+                <label for="Type" class="form-label">Type of event:</label>
                 <InputSelect id="Type" @bind-Value="@eventModel.Type" class="form-select" required>
                     @foreach (var type in Enum.GetValues<EventType>())
                     {
                         <option value="@type">@type</option>
                     }
                 </InputSelect>
-
-                
-    </div>
+            </div>
 
             <div class="mb-3">
                 <label for="StartTime" class="form-label">Start time:</label>
@@ -45,54 +44,113 @@
                 <label for="EndTime" class="form-label">End time:</label>
                 <InputText id="EndTime" @bind-Value="@endTimeString" type="datetime-local" class="form-control" required />
             </div>
- 
-    <div class="mb-3">
-        <label for="MaxAttendees" class="form-label">Max attendees:</label>
-        <InputNumber id="MaxAttendees" @bind-Value="@eventModel.MaxAttendees" class="form-control" required></InputNumber>
-    </div>
 
-    <button type="submit" class="btn btn-primary" disabled="@isLoading">
-        @(isLoading ? "Creating..." : "Create Event")
-    </button>
+            <div class="mb-3">
+                <label for="MaxAttendees" class="form-label">Max attendees:</label>
+                <InputNumber id="MaxAttendees" @bind-Value="@eventModel.MaxAttendees" class="form-control" required></InputNumber>
+            </div>
 
-    @if (errorMessage != null)
-    {
-        <p class="text-danger mt-2">@errorMessage</p>
-    }
-</EditForm>
-</div>
-</div>
+            <div class="d-flex align-items-center gap-2 mt-3">
+            <button type="submit" class="btn btn-primary" disabled="@isLoading">
+                @(isLoading ? "Saving..." : (eventModel.Id == 0 ? "Create Event" : "Update Event"))
+            </button>
+
+            @if (EventId.HasValue && EventId.Value > 0)
+            {
+                @if (!showConfirmDelete)
+                {
+                    <button class="btn btn-danger" @onclick="() => showConfirmDelete = true">
+                        Delete Event
+                    </button>
+                }
+                else
+                {
+                        <div class="d-flex align-items-center gap-2">
+                        <p>Are you sure you want to delete this event?</p>
+                        <button class="btn btn-danger" @onclick="DeleteEvent" disabled="@isLoading">
+                            @(isLoading ? "Deleting..." : "Yes, Delete")
+                        </button>
+                        <button class="btn btn-secondary ms-2" @onclick="() => showConfirmDelete = false">Cancel</button>
+                    </div>
+                }
+            }
+            </div>
 
 
-    @code {
-private EventRequest eventModel = new(); 
-private bool isLoading = false;
-private string? errorMessage;
+            @if (errorMessage != null)
+            {
+                <p class="text-danger mt-2">@errorMessage</p>
+            }
+        </EditForm>
+        </div>
+        </div>
 
+
+@code {
+    private EventRequest eventModel = new(); 
+    private bool isLoading = false;
+    private string? errorMessage;
     private string startTimeString = DateTime.Now.ToString("yyyy-MM-ddTHH:mm");
     private string endTimeString = DateTime.Now.AddHours(2).ToString("yyyy-MM-ddTHH:mm");
 
-private async Task SubmitEvent()
-{
-    isLoading = true;
-    errorMessage = null;
+    [Parameter] public int? EventId { get; set; } 
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (EventId.HasValue && EventId.Value > 0)
+        {
+            await LoadEvent(EventId.Value);
+         
+        }
+    }
+
+    private async Task LoadEvent(int id)
+    {
+        try
+        {
+            var response = await Http.GetFromJsonAsync<EventRequest>($"https://localhost:7206/events/{id}");
+            if (response != null)
+            {
+                eventModel = response;
+                startTimeString = eventModel.Start.ToString("yyyy-MM-ddTHH:mm");
+                endTimeString = eventModel.End.ToString("yyyy-MM-ddTHH:mm");
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error loading event: {ex.Message}";
+        }
+    }
+
+    private async Task SubmitEvent()
+    {
+        isLoading = true;
+        errorMessage = null;
 
         try
         {
-            
             eventModel.Start = DateTime.Parse(startTimeString);
             eventModel.End = DateTime.Parse(endTimeString);
 
-            var response = await Http.PostAsJsonAsync("https://localhost:7206/events", eventModel);
+            HttpResponseMessage response;
+            if (eventModel.Id == 0)
+            {
+              
+                response = await Http.PostAsJsonAsync("https://localhost:7206/events", eventModel);
+            }
+            else
+            {
+                
+                response = await Http.PutAsJsonAsync($"https://localhost:7206/events/{eventModel.Id}", eventModel);
+            }
 
             if (response.IsSuccessStatusCode)
             {
-                var createdEvent = await response.Content.ReadFromJsonAsync<EventResponse>();
                 Navigation.NavigateTo("/admin/home");
             }
             else
             {
-                errorMessage = "Failed to create event. Please try again.";
+                errorMessage = "Failed to save event.";
             }
         }
         catch (Exception ex)
@@ -105,18 +163,48 @@ private async Task SubmitEvent()
         }
     }
 
+    @code {
+        private bool showConfirmDelete = false; // Styr om bekräftelsen visas
+
+        private async Task DeleteEvent()
+        {
+            isLoading = true;
+            errorMessage = null;
+
+            try
+            {
+                var response = await Http.DeleteAsync($"https://localhost:7206/events/{EventId.Value}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    Navigation.NavigateTo("/admin/home");
+                }
+                else
+                {
+                    errorMessage = "Failed to delete event.";
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = $"An error occurred: {ex.Message}";
+            }
+            finally
+            {
+                isLoading = false;
+            }
+        }
+    }
+
+
+
     private class EventRequest
     {
+        public int Id { get; set; } 
         public string Name { get; set; } = "";
         public string Description { get; set; } = "";
         public EventType Type { get; set; } = EventType.Other;
         public DateTime Start { get; set; } = DateTime.Now;
         public DateTime End { get; set; } = DateTime.Now.AddHours(2);
         public int MaxAttendees { get; set; } = 100;
-    }
-
-    private class EventResponse
-    {
-        public int Id { get; set; }
     }
 }
