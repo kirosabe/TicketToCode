@@ -10,10 +10,16 @@ namespace TicketToCode.Core.Data
         public AppDbContext() { }
         public DbSet<Event> Events { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
         // Model for test data seeding
         // To use this model, add the following code in CMD from TicketToCode.API where appsettings.json is:
         // dotnet ef database update --project ../TicketToCode.Core --startup-project .
+
+
+        // Use this from API as startpoint to add new migrations
+        // dotnet ef migrations add AddBookingsTable --project ../TicketToCode.Core --startup-project .
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasData(

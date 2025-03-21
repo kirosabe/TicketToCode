@@ -1,78 +1,69 @@
 ﻿@using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Web
+@using TicketToCode.Core.Models;
 @page "/booking"
 @inject HttpClient Http
 
 <PageTitle>Book now</PageTitle>
 
 <div class="booking-container">
-    <h1>Book your event with us</h1>
+	<h1>Book your event with us</h1>
 
-    <div class="form-container">
-        <EditForm Model="@booking">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+	<div class="form-container">
+		<EditForm Model="@booking" OnValidSubmit="SubmitBooking">
+			<DataAnnotationsValidator />
+			<ValidationSummary />
 
-            <div class="mb-3">
-                <label for="FirstName" class="form-label">First name:</label>
-                <InputText id="FirstName" @bind-Value="@booking.FirstName" class="form-control" required></InputText>
-            </div>
-            <div class="mb-3">
-                <label for="LastName" class="form-label">Last name:</label>
-                <InputText id="LastName" @bind-Value="@booking.LastName" class="form-control" required></InputText>
-            </div>
-            <div class="mb-3">
-                <label for="Phone" class="form-label">Phone number:</label>
-                <InputText id="Phone" @bind-Value="@booking.Phone" class="form-control" required></InputText>
-            </div>
-            <div class="mb-3">
-                <label for="Email" class="form-label">Email:</label>
-                <InputText id="Email" @bind-Value="@booking.Email" class="form-control" required></InputText>
-            </div>
-            <div class="mb-3">
-                <label for="Event" class="form-label">Event:</label>
-                <InputSelect id="Event" @bind-Value="@booking.EventId" class="form-control" required>
-                    <option value="">Select an event</option>
-                    @foreach (var ev in events)
-                    {
-                        <option value="@ev.Id">@ev.Name</option>
-                    }
-                </InputSelect>
-            </div>
-            <div class="mb-3">
-                <label for="Tickets" class="form-label">Number of tickets</label>
-                <InputNumber id="Tickets" @bind-Value="@booking.Tickets" class="form-control" required></InputNumber>
-            </div>
-            <div class="mb-3">
-                <label for="PaymentMethod" class="form-label">Payment method:</label>
-                <InputSelect id="PaymentMethod" @bind-Value="@booking.PaymentMethod" class="form-control" required>
-                    <option value="">Select payment method</option>
-                    <option value="CreditCard">Credit Card</option>
-                    <option value="Swish">Swish</option>
-                    <option value="Invoice">Invoice</option>
-                </InputSelect>
-            </div>
-            <button type="submit" class="btn btn-primary">Book your spot</button>
-        </EditForm>
-    </div>
+			<div class="mb-3">
+				<label for="FirstName" class="form-label">First name:</label>
+				<InputText id="FirstName" @bind-Value="@booking.FirstName" class="form-control" required></InputText>
+			</div>
+			<div class="mb-3">
+				<label for="LastName" class="form-label">Last name:</label>
+				<InputText id="LastName" @bind-Value="@booking.LastName" class="form-control" required></InputText>
+			</div>
+			<div class="mb-3">
+				<label for="Phone" class="form-label">Phone number:</label>
+				<InputText id="Phone" @bind-Value="@booking.Phone" class="form-control" required></InputText>
+			</div>
+			<div class="mb-3">
+				<label for="Email" class="form-label">Email:</label>
+				<InputText id="Email" @bind-Value="@booking.Email" class="form-control" required></InputText>
+			</div>
+			<div class="mb-3">
+				<label for="Event" class="form-label">Event:</label>
+				<InputSelect id="Event" @bind-Value="@booking.EventId" class="form-control" required>
+					<option value="">Select an event</option>
+					@foreach (var ev in events)
+					{
+						<option value="@ev.Id">@ev.Name</option>
+					}
+				</InputSelect>
+			</div>
+			<div class="mb-3">
+				<label for="Tickets" class="form-label">Number of tickets</label>
+				<InputNumber id="Tickets" @bind-Value="@booking.Tickets" class="form-control" required></InputNumber>
+			</div>
+			<div class="mb-3">
+				<label for="PaymentMethod" class="form-label">Payment method:</label>
+				<InputSelect id="PaymentMethod" @bind-Value="@booking.PaymentMethod" class="form-control" required>
+					<option value="">Select payment method</option>
+					@foreach (var method in Enum.GetValues<PaymentMethod>())
+					{
+						<option value="@method">@method</option>
+					}
+				</InputSelect>
+			</div>
+			<button type="submit" class="btn btn-primary">Book your spot</button>
+		</EditForm>
+	</div>
 </div>
 
 @code {
-    private BookingModel booking = new BookingModel();
-    private List<EventModel> events = new List<EventModel>();
+	private TicketToCode.Core.Models.Booking booking = new(); //Model for booking
+	private List<EventModel> events = new List<EventModel>();
 
-    //Model for booking, should it be moved to core?
-    private class BookingModel
-    {
-        public int EventId { get; set; }
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public string Phone { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public int Tickets { get; set; } = 1;
-        public string PaymentMethod { get; set; } = string.Empty;
-	}
-    //Model for events to work with API
+	//Model for events to work with API
 	private class EventModel
 	{
 		public int Id { get; set; }
@@ -91,6 +82,20 @@
 		catch (Exception ex)
 		{
 			Console.WriteLine($"Error fetching events: {ex.Message}");
+		}
+	}
+	private async Task SubmitBooking()
+	{
+		var response = await Http.PostAsJsonAsync("https://localhost:7206/bookings", booking);
+
+			if (response.IsSuccessStatusCode)
+			{
+				Console.WriteLine("Booking submitted!");
+			}
+			else
+			{
+				Console.WriteLine("Booking failed");
+			}
 		}
 	}
 }

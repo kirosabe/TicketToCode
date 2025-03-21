@@ -23,7 +23,7 @@ public class Booking
 }
 public enum PaymentMethod
 {
-    CreditCard,
+    CreditCard = 0,
     Swish,
     Invoice
 }
