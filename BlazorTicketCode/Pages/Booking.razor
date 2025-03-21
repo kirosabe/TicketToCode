@@ -3,6 +3,8 @@
 @using TicketToCode.Core.Models;
 @page "/booking"
 @inject HttpClient Http
+@inject NavigationManager Navigation
+
 
 <PageTitle>Book now</PageTitle>
 
@@ -90,7 +92,7 @@
 
 			if (response.IsSuccessStatusCode)
 			{
-				Console.WriteLine("Booking submitted!");
+			Navigation.NavigateTo("/booking/confirmation");
 			}
 			else
 			{
