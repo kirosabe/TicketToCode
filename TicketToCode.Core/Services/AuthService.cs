@@ -30,7 +30,7 @@ public class AuthService : IAuthService
             return null;
         }
 
-        return new User(user.Username, user.Role);
+        return user;
     }
 
     public User? Register(string username, string password)
