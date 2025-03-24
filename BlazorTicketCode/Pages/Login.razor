@@ -61,9 +61,9 @@
 
                 if (loginResponse != null)
                 {
-                    Console.WriteLine($"Logged in user: {loginResponse.Username}, Role: {loginResponse.Role}");
+                    
 
-                    if (loginResponse.Role.Trim().ToLower() == "admin") // Kontrollera case och whitespace
+                    if (loginResponse.Role.Trim().ToLower() == "admin") 
                     {
                         Navigation.NavigateTo("/admin/home");
                     }
