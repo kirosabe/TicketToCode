@@ -1,8 +1,8 @@
-﻿
-@page "/login"
+﻿@page "/login"
 @using TicketToCode.Core.Models
 @inject HttpClient Http
 @inject AuthStateService Auth
+@inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager Navigation
 
 <div class="container mt-5">
@@ -60,11 +60,13 @@
         {
             var loginResponse = await result.Content.ReadFromJsonAsync<LoginResponse>();
             await Auth.SetAuth(loginResponse.Username, loginResponse.Role);
-
+            if (AuthProvider is CustomAuthenticationStateProvider customAuth)
+            {
+                customAuth.NotifyAuthenticationChanged();
+            }
             if (loginResponse != null)
             {
-
-
+                
                 if (loginResponse.Role.Trim().ToLower() == "admin")
                 {
                     Navigation.NavigateTo("/admin/home");
