@@ -1,5 +1,4 @@
 ﻿
-
 @page "/login"
 @using TicketToCode.Core.Models
 @inject HttpClient Http
@@ -10,31 +9,31 @@
         <div class="col-md-6"> 
             <div class="bg-light p-4 rounded-4 shadow">
 
-                
-        <h2 class="text-center">Login!</h2>
-<EditForm Model="@user" OnValidSubmit="LoginUser" class="row g-3">
-    <DataAnnotationsValidator></DataAnnotationsValidator>
-    <ValidationSummary></ValidationSummary>
 
-    <div class="mb-4">
-    <label for="Username">Username:</label>
-    <InputText id="Username" @bind-Value="@user.Username" class="form-control" required></InputText>
-    </div>
+                <h2 class="text-center">Login!</h2>
+                <EditForm Model="@user" OnValidSubmit="LoginUser" class="row g-3">
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    <ValidationSummary></ValidationSummary>
 
-    <div class="mb-4">
-    <label for="Password">Password:</label>
-    <InputText id="Password" type="password" @bind-Value="@user.PasswordHash" class="form-control" required></InputText>
-    </div>
-    <div class="d-flex flex-column align-items-center mb-4">
-    <button type="submit" class="btn btn-success w-50">Sign in</button>
-   <button @onclick="NavigateToSignup" class="btn btn-outline-primary btn-sm mt-4 w-auto">Don't have an account? Sign up here!</button>
-   </div>
-</EditForm>
+                    <div class="mb-4">
+                        <label for="Username">Username:</label>
+                        <InputText id="Username" @bind-Value="@user.Username" class="form-control" required></InputText>
+                    </div>
 
-@if (!string.IsNullOrEmpty(errorMessage))
-{
-    <p class="text-danger">@errorMessage</p>
-}
+                    <div class="mb-4">
+                        <label for="Password">Password:</label>
+                        <InputText id="Password" type="password" @bind-Value="@user.PasswordHash" class="form-control" required></InputText>
+                    </div>
+                    <div class="d-flex flex-column align-items-center mb-4">
+                        <button type="submit" class="btn btn-success w-50">Sign in</button>
+                        <button @onclick="NavigateToSignup" class="btn btn-outline-primary btn-sm mt-4 w-auto">Don't have an account? Sign up here!</button>
+                    </div>
+                </EditForm>
+
+                @if (!string.IsNullOrEmpty(errorMessage))
+                {
+                    <p class="text-danger">@errorMessage</p>
+                }
             </div>
         </div>
     </div>
@@ -59,9 +58,22 @@
             if (response.IsSuccessStatusCode)
             {
                 var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>();
-                // Spara användardata om det behövs (exempelvis i localStorage)
-                Navigation.NavigateTo("/events");
+
+                if (loginResponse != null)
+                {
+                    
+
+                    if (loginResponse.Role.Trim().ToLower() == "admin") 
+                    {
+                        Navigation.NavigateTo("/admin/home");
+                    }
+                    else
+                    {
+                        Navigation.NavigateTo("/events");
+                    }
+                }
             }
+
             else
             {
                 errorMessage = "Felaktigt användarnamn eller lösenord.";

@@ -49,7 +49,8 @@ namespace TicketToCode.Core.Data
                     Type = EventType.Concert,
                     StartTime = new DateTime(2025, 5, 10, 18, 0, 0, DateTimeKind.Utc),
                     EndTime = new DateTime(2025, 5, 10, 21, 0, 0, DateTimeKind.Utc),
-                    MaxAttendees = 50000
+                    MaxAttendees = 50000,
+                    Price = 2000
                 },
                 new Event
                 {
@@ -59,7 +60,9 @@ namespace TicketToCode.Core.Data
                     Type = EventType.Other,
                     StartTime = new DateTime(2025, 6, 15, 9, 0, 0, DateTimeKind.Utc),
                     EndTime = new DateTime(2025, 6, 15, 17, 0, 0, DateTimeKind.Utc),
-                    MaxAttendees = 300
+                    MaxAttendees = 300,
+                    Price = 200
+
                 },
                 new Event
                 {
@@ -69,7 +72,8 @@ namespace TicketToCode.Core.Data
                     Type = EventType.Other,
                     StartTime = new DateTime(2025, 5, 10, 18, 0, 0, DateTimeKind.Utc),
                     EndTime = new DateTime(2025, 5, 10, 21, 0, 0, DateTimeKind.Utc),
-                    MaxAttendees = 150
+                    MaxAttendees = 150,
+                    Price = 150
                 }
             );
         }

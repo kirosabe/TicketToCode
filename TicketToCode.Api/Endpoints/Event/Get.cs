@@ -18,7 +18,8 @@ public class GetEvent : IEndpoint
         EventType Type,
         DateTime Start,
         DateTime End,
-        int MaxAttendees
+        int MaxAttendees,
+        decimal Price
     );
 
 
@@ -35,7 +36,8 @@ public class GetEvent : IEndpoint
             Type: ev.Type,
             Start: ev.StartTime,
             End: ev.EndTime,
-            MaxAttendees: ev.MaxAttendees
+            MaxAttendees: ev.MaxAttendees,
+            Price: ev.Price
             );
 
         return response;

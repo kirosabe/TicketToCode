@@ -17,7 +17,8 @@ public class UpdateEvent : IEndpoint
         EventType Type,
         DateTime Start,
         DateTime End,
-        int MaxAttendees
+        int MaxAttendees,
+        decimal Price
     );
 
     // Response-typ
@@ -40,6 +41,7 @@ public class UpdateEvent : IEndpoint
         ev.StartTime = request.Start;
         ev.EndTime = request.End;
         ev.MaxAttendees = request.MaxAttendees;
+        ev.Price = request.Price;
 
         // Spara ändringar
         await db.SaveChangesAsync();
