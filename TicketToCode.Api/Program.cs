@@ -30,17 +30,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<EventService>();
 
-// Add cookie authentication
-builder.Services.AddAuthentication("Cookies")
-    .AddCookie("Cookies", options =>
-    {
-        options.Cookie.Name = "auth";
-        options.Cookie.HttpOnly = true;
-        options.Cookie.SameSite = SameSiteMode.Strict;
-    });
-
-builder.Services.AddAuthorization();
-
 var app = builder.Build();
 
 
@@ -59,8 +48,6 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCors("AllowBlazorClient");
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
 
 // Map all endpoints
 app.MapEndpoints<Program>();
