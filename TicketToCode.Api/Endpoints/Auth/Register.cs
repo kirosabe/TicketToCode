@@ -1,7 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata;
-using TicketToCode.Api.Services;
-
 namespace TicketToCode.Api.Endpoints.Auth;
 
 public class Register : IEndpoint
