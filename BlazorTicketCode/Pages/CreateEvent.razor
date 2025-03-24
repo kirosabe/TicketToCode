@@ -49,31 +49,35 @@
                 <label for="MaxAttendees" class="form-label">Max attendees:</label>
                 <InputNumber id="MaxAttendees" @bind-Value="@eventModel.MaxAttendees" class="form-control" required></InputNumber>
             </div>
+            <div class="mb-3">
+                <label for="Price" class="form-label">Price:</label>
+                <InputNumber id="Price" @bind-Value="@eventModel.Price" class="form-control" required></InputNumber>
+            </div>
 
             <div class="d-flex align-items-center gap-2 mt-3">
-            <button type="submit" class="btn btn-primary" disabled="@isLoading">
-                @(isLoading ? "Saving..." : (eventModel.Id == 0 ? "Create Event" : "Update Event"))
-            </button>
+                <button type="submit" class="btn btn-primary" disabled="@isLoading">
+                    @(isLoading ? "Saving..." : (eventModel.Id == 0 ? "Create Event" : "Update Event"))
+                </button>
 
-            @if (EventId.HasValue && EventId.Value > 0)
-            {
-                @if (!showConfirmDelete)
+                @if (EventId.HasValue && EventId.Value > 0)
                 {
-                    <button class="btn btn-danger" @onclick="() => showConfirmDelete = true">
-                        Delete Event
-                    </button>
-                }
-                else
-                {
-                        <div class="d-flex align-items-center gap-2">
-                        <p>Are you sure you want to delete this event?</p>
-                        <button class="btn btn-danger" @onclick="DeleteEvent" disabled="@isLoading">
-                            @(isLoading ? "Deleting..." : "Yes, Delete")
+                    @if (!showConfirmDelete)
+                    {
+                        <button class="btn btn-danger" @onclick="() => showConfirmDelete = true">
+                            Delete Event
                         </button>
-                        <button class="btn btn-secondary ms-2" @onclick="() => showConfirmDelete = false">Cancel</button>
-                    </div>
+                    }
+                    else
+                    {
+                        <div class="d-flex align-items-center gap-2">
+                            <p>Are you sure you want to delete this event?</p>
+                            <button class="btn btn-danger" @onclick="DeleteEvent" disabled="@isLoading">
+                                @(isLoading ? "Deleting..." : "Yes, Delete")
+                            </button>
+                            <button class="btn btn-secondary ms-2" @onclick="() => showConfirmDelete = false">Cancel</button>
+                        </div>
+                    }
                 }
-            }
             </div>
 
 
@@ -82,8 +86,8 @@
                 <p class="text-danger mt-2">@errorMessage</p>
             }
         </EditForm>
-        </div>
-        </div>
+    </div>
+</div>
 
 
 @code {
@@ -100,7 +104,7 @@
         if (EventId.HasValue && EventId.Value > 0)
         {
             await LoadEvent(EventId.Value);
-         
+
         }
     }
 
@@ -135,12 +139,12 @@
             HttpResponseMessage response;
             if (eventModel.Id == 0)
             {
-              
+
                 response = await Http.PostAsJsonAsync("https://localhost:7206/events", eventModel);
             }
             else
             {
-                
+
                 response = await Http.PutAsJsonAsync($"https://localhost:7206/events/{eventModel.Id}", eventModel);
             }
 
@@ -199,12 +203,13 @@
 
     private class EventRequest
     {
-        public int Id { get; set; } 
-        public string Name { get; set; } = "";
-        public string Description { get; set; } = "";
-        public EventType Type { get; set; } = EventType.Other;
-        public DateTime Start { get; set; } = DateTime.Now;
-        public DateTime End { get; set; } = DateTime.Now.AddHours(2);
-        public int MaxAttendees { get; set; } = 100;
+    public int Id { get; set; } 
+    public string Name { get; set; } = "";
+    public string Description { get; set; } = "";
+    public EventType Type { get; set; } = EventType.Other;
+    public DateTime Start { get; set; } = DateTime.Now;
+    public DateTime End { get; set; } = DateTime.Now.AddHours(2);
+    public int MaxAttendees { get; set; } = 100;
+    public decimal Price { get; set; }
     }
 }

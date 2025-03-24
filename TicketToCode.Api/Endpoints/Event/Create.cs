@@ -17,7 +17,8 @@ public class CreateEvent : IEndpoint
         EventType Type,
         DateTime Start,
         DateTime End,
-        int MaxAttendees
+        int MaxAttendees,
+        decimal Price
         );
     public record Response(int id);
 
@@ -34,6 +35,7 @@ public class CreateEvent : IEndpoint
         ev.StartTime = request.Start;
         ev.EndTime = request.End;
         ev.MaxAttendees = request.MaxAttendees;
+        ev.Price = request.Price;
 
 
         // Todo: does this set id on ev-object?

@@ -19,7 +19,8 @@ public class GetAllEvents : IEndpoint
         EventType Type,
         DateTime Start,
         DateTime End,
-        int MaxAttendees
+        int MaxAttendees,
+        decimal Price
     );
 
     //Logic
@@ -35,7 +36,8 @@ public class GetAllEvents : IEndpoint
             Type: item.Type,
             Start: item.StartTime,
             End: item.EndTime,
-            MaxAttendees: item.MaxAttendees
+            MaxAttendees: item.MaxAttendees,
+            Price: item.Price
         )).ToList();
     }
 }

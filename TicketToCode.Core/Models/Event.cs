@@ -8,19 +8,21 @@ public class Event
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
     public int MaxAttendees { get; set; }
+    public decimal Price {  get; set; }
 
     public Event()
     {
         
     }
-    public Event(string name, string description, EventType type, DateTime startTime, DateTime endTime, int maxAttendees)
+    public Event(string name, string description, EventType type, DateTime startTime, DateTime endTime, int maxAttendees, decimal price)
     {
-        Name= name;
-        Description= description;
+        Name = name;
+        Description = description;
         Type = type;
         StartTime = startTime;
         EndTime = endTime;
         MaxAttendees = maxAttendees;
+        Price = price;
     }
 }
 
