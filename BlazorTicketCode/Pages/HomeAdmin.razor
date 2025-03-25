@@ -11,6 +11,7 @@
     <p class="lead mb-4">Manage and create amazing events effortlessly.</p>
     <button class="btn btn-primary btn-lg shadow-lg" @onclick="GoToCreateEvent">Create an Event</button>
     <button class="btn btn-primary btn-lg shadow-lg" @onclick="ManageStatistics">Manage Statistics</button>
+    <button class="btn btn-primary btn-lg shadow-lg" @onclick="ViewUserBookings">View User Bookings</button>
 </div>
 
 
@@ -74,6 +75,11 @@
     private void GoToCreateEvent()
     {
         Navigation.NavigateTo("/create");
+    }
+
+    private void ViewUserBookings()
+    {
+        Navigation.NavigateTo("/admin/user-bookings");
     }
 
     private void EditEvent(int id)

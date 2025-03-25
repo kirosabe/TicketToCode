@@ -1,0 +1,83 @@
+@page "/admin/user-bookings"
+@using TicketToCode.Core.Models
+@inject HttpClient Http
+
+<PageTitle>User Bookings</PageTitle>
+
+<div class="container mt-4">
+    <h2>All Bookings</h2>
+    
+    @if (bookings == null)
+    {
+        <p>Loading bookings...</p>
+    }
+    else if (!bookings.Any())
+    {
+        <p>No bookings found.</p>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Event</th>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Tickets</th>
+                        <th>Payment Method</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var booking in bookings)
+                    {
+                        <tr>
+                            <td>@booking.BookingId</td>
+                            <td>@GetEventName(booking.EventId)</td>
+                            <td>@booking.FirstName @booking.LastName</td>
+                            <td>@booking.Email</td>
+                            <td>@booking.Phone</td>
+                            <td>@booking.Tickets</td>
+                            <td>@booking.PaymentMethod</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@code {
+    private List<Booking> bookings = new();
+    private List<Event> events = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var bookingsResponse = await Http.GetAsync("https://localhost:7206/bookings");
+            if (bookingsResponse.IsSuccessStatusCode)
+            {
+                bookings = await bookingsResponse.Content.ReadFromJsonAsync<List<Booking>>() ?? new();
+            }
+
+            var eventsResponse = await Http.GetAsync("https://localhost:7206/events");
+            if (eventsResponse.IsSuccessStatusCode)
+            {
+                events = await eventsResponse.Content.ReadFromJsonAsync<List<Event>>() ?? new();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching data: {ex.Message}");
+        }
+    }
+
+    private string GetEventName(int eventId)
+    {
+        var eventItem = events.FirstOrDefault(e => e.Id == eventId);
+        return eventItem?.Name ?? "Unknown Event";
+    }
+} 
