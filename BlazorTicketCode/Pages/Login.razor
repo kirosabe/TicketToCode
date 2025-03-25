@@ -43,7 +43,7 @@
 
     private void NavigateToSignup()
     {
-        // Navigera till inloggningssidan
+        // Navigates to sign up page
         Navigation.NavigateTo("/signup");
     }
     private User user = new User();
@@ -59,7 +59,9 @@
         if (result.IsSuccessStatusCode)
         {
             var loginResponse = await result.Content.ReadFromJsonAsync<LoginResponse>();
+			// Store the user details in local storage
             await Auth.SetAuth(loginResponse.Username, loginResponse.Role);
+			// Notify the authentication state provider that the user has been authenticated
             if (AuthProvider is CustomAuthenticationStateProvider customAuth)
             {
                 customAuth.NotifyAuthenticationChanged();
@@ -79,7 +81,7 @@
         }
         else
         {
-            errorMessage = "Felaktigt användarnamn eller lösenord.";
+            errorMessage = "Wrong Username or Password";
         }
     }
 

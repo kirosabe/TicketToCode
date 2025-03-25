@@ -1,4 +1,8 @@
-﻿<div class="nav-top-row px-4">
+﻿@inject AuthStateService Auth
+@inject AuthenticationStateProvider AuthProvider
+@inject NavigationManager Navigation
+@implements IDisposable
+<div class="nav-top-row px-4">
     <div class="container-fluid">
         <nav class="d-flex align-items-center w-100">
             <!-- Menyalternativ till vänster -->
@@ -27,14 +31,74 @@
                 </div>
             </div>
 
-            <!-- Sista NavLink ska ligga längst till höger -->
-            <div class="nav-item px-3 ms-auto">
-                <NavLink class="nav-link" href="profile">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+            @* Profile dropdown menu*@
+            <div class="nav-item px-3 ms-auto dropdown" @onclick="ToggleDropdown">
+                <button class="btn btn-outline-light dropdown-toggle" type="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-person-fill" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
                     </svg>
-                </NavLink>
+                </button>
+
+                @if (showDropdown)
+                {
+                    <div class="dropdown-menu show">
+                        <a class="dropdown-item" href="/profile">Profile</a>
+
+                        @if (isLoggedIn)
+                        {
+                            <button class="dropdown-item" @onclick="Logout">Sign out</button>
+                        }
+                        else
+                        {
+                            <button class="dropdown-item" @onclick="@(() => Navigation.NavigateTo("/login"))">Sign in</button>
+                        }
+                    </div>
+                }
             </div>
         </nav>
     </div>
 </div>
+@code {
+    private bool showDropdown = false;
+    private bool isLoggedIn = false;
+
+    // Checks if User is logged in or not on start
+    protected override async Task OnInitializedAsync()
+    {
+        Auth.AuthStateChanged += OnAuthStateChanged;
+        await UpdateLoginStatus();
+    }
+	// Triggers when auth state changes
+    private void OnAuthStateChanged()
+    {
+        _ = InvokeAsync(UpdateLoginStatus);
+    }
+	// Method to update login status and show dropdown menu
+    private async Task UpdateLoginStatus()
+    {
+        var username = await Auth.GetUsername();
+        isLoggedIn = !string.IsNullOrEmpty(username);
+        StateHasChanged();
+    }
+
+    private void ToggleDropdown()
+    {
+        showDropdown = !showDropdown;
+    }
+	// Logout method to sign out user and update UI and AuthState
+    private async Task Logout()
+    {
+        await Auth.Logout();
+        if (AuthProvider is CustomAuthenticationStateProvider custom)
+        {
+            custom.NotifyAuthenticationChanged();
+        }
+        Navigation.NavigateTo("/login");
+    }
+    // Dispose method to remove event listener
+    public void Dispose()
+    {
+        Auth.AuthStateChanged -= OnAuthStateChanged;
+    }
+}

@@ -1,8 +1,15 @@
-﻿@using Microsoft.AspNetCore.Components.Authorization
+﻿@inject NavigationManager Navigation
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
-            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            @* AuthorizeRouteView required to enable [Authorize] and role-based access control on pages *@
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <h3>Access Denied</h3>
+                    <p>You don´t have promission to view this page</p>
+                    <p><a href="/login">Sign in</a> or <a href="/">Back to Homepage</a></p>
+                </NotAuthorized>
+            </AuthorizeRouteView>
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
         </Found>
         <NotFound>

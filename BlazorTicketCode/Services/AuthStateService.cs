@@ -1,10 +1,10 @@
 ﻿using Microsoft.JSInterop;
 using System.Threading.Tasks;
-
+// Service to manage the authentication state of the user in the local storage with Javascript Interop
 public class AuthStateService
 {
     private readonly IJSRuntime _js;
-
+    public event Action? AuthStateChanged;
     public AuthStateService(IJSRuntime js)
     {
         _js = js;
@@ -14,6 +14,7 @@ public class AuthStateService
     {
         await _js.InvokeVoidAsync("localStorage.setItem", "username", username);
         await _js.InvokeVoidAsync("localStorage.setItem", "role", role);
+        AuthStateChanged?.Invoke();
     }
 
     public async Task<string> GetUsername() =>
@@ -26,5 +27,6 @@ public class AuthStateService
     {
         await _js.InvokeVoidAsync("localStorage.removeItem", "username");
         await _js.InvokeVoidAsync("localStorage.removeItem", "role");
+        AuthStateChanged?.Invoke();
     }
 }
