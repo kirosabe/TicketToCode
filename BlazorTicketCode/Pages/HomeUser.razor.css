@@ -32,7 +32,8 @@ h1 {
 
 .row {
     overflow: hidden;
-    padding: 0.8rem
+    padding: 0.8rem;
+    background-color: #e9eaf0;
 }
 
 .card {
