@@ -1,44 +1,22 @@
 body, .booking-page {
-    background: #f8f9fa;
     margin: 0;
     padding: 0;
     position: relative;
     overflow-x: hidden;
 }
 
-    .booking-container {
-        margin: 0 auto;
-        padding: 4rem 2rem;
-        background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
-        color: #2d3436;
-        position: relative;
-        overflow: hidden;
-    }
 
-    .booking-container::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 30rem;
-        background: linear-gradient(135deg, #6c5ce7 0%, #a8a4e6 100%);
-        clip-path: ellipse(70% 85% at 50% 0%);
-        z-index: 0;
-    }
-
-    h1 {
-        text-align: center;
-        font-size: 4rem;
-        margin-bottom: 0.5rem;
-        color: #fff;
-        font-weight: 800;
-        letter-spacing: 2px;
-        position: relative;
-        z-index: 2;
-        text-transform: uppercase;
-        font-family: serif;
-    }
+h1 {
+    text-align: center;
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    color: #1C3D5A;
+    font-weight: 800;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 2;
+    
+}
 
     .form-container {
         background: #fff;
@@ -81,23 +59,23 @@ body, .booking-page {
         box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
     }
 
-    .btn-primary {
-        background: linear-gradient(45deg, #6c5ce7, #a8a4e6);
-        border: none;
-        padding: 1rem 2rem;
-        font-size: 1.1rem;
-        font-weight: 600;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        width: 100%;
-        color: #fff;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        position: relative;
-        overflow: hidden;
-        margin-top: 1rem;
-        box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
-    }
+.btn-primary {
+    background: linear-gradient(135deg, #0A192F, #1C3D5A, #4A7DB3);
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    width: 100%;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 1rem;
+    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
+}
 
     .btn-primary::before {
         content: '';
