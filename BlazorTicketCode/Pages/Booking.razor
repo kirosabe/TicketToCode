@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Components.Web
 @using TicketToCode.Core.Models;
 @page "/booking"
+@attribute [Authorize(Roles = "User")]
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject BookingState BookingState
