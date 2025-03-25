@@ -2,9 +2,13 @@
 @attribute [Authorize(Roles = "User")]
 @inject HttpClient Http
 @inject AuthStateService Auth
+@inject IJSRuntime JSRuntime
 <section class="container">
     <h1>Your tickets</h1>
-
+    @if (!string.IsNullOrEmpty(feedbackMessage))
+    {
+        <div class="alert alert-success">@feedbackMessage</div>
+    }
     @if (bookings is null)
     {
         <p> Loading...</p>
@@ -43,7 +47,7 @@
                                         Location <!-- Add location? -->
                                     </p>
                                 </div>
-                                <a href="#">Cancel</a>
+                                <a @onclick="() => ConfirmCancel(booking.BookingId)">Cancel</a>
                             </section>
                         </article>
                     </div>
@@ -55,28 +59,52 @@
 
 @code {
     private List<UserBookingDto>? bookings;
+    private string? feedbackMessage;
 
     protected override async Task OnInitializedAsync()
     {
+        // Gets Id of currently logged in user by username
         var username = await Auth.GetUsername();
         if (!string.IsNullOrEmpty(username))
         {
             bookings = await Http.GetFromJsonAsync<List<UserBookingDto>>($"users/{username}/bookings");
         }
     }
+	// Asks user to comfirm cancel before canceling
+    private async Task ConfirmCancel(int id)
+    {
+        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to cancel this booking?");
+        if (confirmed)
+        {
+            await CancelBooking(id);
+        }
+    }
+    // Cancels booking and removes from list
+    private async Task CancelBooking(int id)
+    {
+        var response = await Http.DeleteAsync($"bookings/{id}/cancel");
+        if (response.IsSuccessStatusCode)
+        {
+            var bookingToRemove = bookings.FirstOrDefault(b => b.BookingId == id);
+            if (bookingToRemove != null)
+            {
+                bookings.Remove(bookingToRemove);
+                feedbackMessage = "Booking successfully canceled!";
+            }
+        }
+        else
+        {
+            feedbackMessage = "Failed to cancel booking. Please try again.";
+        }
+    }
+
     public class UserBookingDto
     {
+		public int BookingId { get; set; }
         public string? EventName { get; set; }
         public int Tickets { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public DateTime Start { get; set; }
-    }
-
-    public enum PaymentMethod
-    {
-        CreditCard = 0,
-        Swish,
-        Invoice
     }
 }
