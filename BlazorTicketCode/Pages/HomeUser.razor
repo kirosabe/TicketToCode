@@ -1,32 +1,57 @@
 ﻿@page "/user/home"
-@attribute [Authorize(Roles = "User")]
+@* @attribute [Authorize(Roles = "User")] *@
 @inject HttpClient Http
 @inject AuthStateService Auth
+<section class="container">
+    <h1>Your tickets</h1>
 
-<h3>Your Bookings</h3>
-
-@if (bookings is null)
-{
-    <p> Loading...</p>
-}
-else if (!bookings.Any())
-{
-    <p>You have no bookings yet.</p>
-}
-else
-{
-    <ul class="list-group">
-        @foreach (var booking in bookings)
-        {
-            <li class="list-group-item">
-                <strong>@booking.EventName</strong> <br />
-                Tickets: @booking.Tickets<br />
-                Name: @booking.FirstName @booking.LastName<br />
-                Date: @(booking.Start.ToString("yyyy-MM-dd HH:mm") ?? "No date available")<br />
-            </li>
-        }
-    </ul>
-}
+    @if (bookings is null)
+    {
+        <p> Loading...</p>
+    }
+    else if (!bookings.Any())
+    {
+        <p>You have no bookings yet.</p>
+    }
+    else
+    {
+        <ul class="list-group">
+            @foreach (var booking in bookings)
+            {
+                <li class="list-group-item">
+                    <div class="row">
+                        <article class="card fl-left">
+                            <section class="date">
+                                <time datetime="@booking.Start.ToString("yyyy-MM-dd")">
+                                    <span>@booking.Start.Day</span>
+                                    <span>@booking.Start.ToString("MMM").ToLower()</span>
+                                </time>
+                            </section>
+                            <section class="card-cont">
+                                <small>@booking.FirstName @booking.LastName</small>
+                                <h3>@booking.EventName</h3>
+                                <div class="even-date">
+                                    <i class="fa fa-calendar"></i>
+                                    <time>
+                                        <span>@booking.Start.ToString("dddd dd MMMM yyyy")</span>
+                                        <span>@booking.Start.ToString("hh:mm tt") to @(booking.Start.AddHours(4).ToString("hh:mm tt"))</span> <!-- Assuming event lasts 4 hours -->
+                                    </time>
+                                </div>
+                                <div class="even-info">
+                                    <i class="fa fa-map-marker"></i>
+                                    <p>
+                                        Location <!-- Add location? -->
+                                    </p>
+                                </div>
+                                <a href="#">Cancel</a>
+                            </section>
+                        </article>
+                    </div>
+                </li>
+            }
+        </ul>
+    }
+</section>
 
 @code {
     private List<UserBookingDto>? bookings;
