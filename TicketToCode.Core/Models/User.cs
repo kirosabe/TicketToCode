@@ -7,7 +7,8 @@ public class User
     public string? PasswordHash { get; set; } = string.Empty; // Default value to avoid null reference exception
      public string Role { get; set; } = UserRoles.User; // Default role
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
+    // List of bookings for the user for entity framework to handle
+    public List<Booking> Bookings { get; set; } = new();
     public User() { }
 
     public User(string name, string pwd)

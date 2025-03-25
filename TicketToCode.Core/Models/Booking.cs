@@ -5,6 +5,10 @@ namespace TicketToCode.Core.Models;
 public class Booking
 {
     public int BookingId { get; set; }
+    public Event? Event { get; set; }
+    // Reference to User by UserID in bookings
+    public int UserId { get; set; }
+    public User? User { get; set; }
     public int EventId { get; set; }
     [Required]
     public string FirstName { get; set; } = string.Empty;
