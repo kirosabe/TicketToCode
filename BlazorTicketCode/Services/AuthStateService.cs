@@ -1,6 +1,6 @@
 ﻿using Microsoft.JSInterop;
 using System.Threading.Tasks;
-
+// Service to manage the authentication state of the user in the local storage with Javascript Interop
 public class AuthStateService
 {
     private readonly IJSRuntime _js;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using System.Security.Claims;
 
+// Class to provide authentication state of the user
 public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 {
     private readonly AuthStateService _authState;
@@ -9,7 +10,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
         _authState = authState;
     }
-
+    // Method to get the authentication state of the user based on the username and role stored in the local storage
     public override async Task<AuthenticationState> GetAuthenticationStateAsync()
     {
         var username = await _authState.GetUsername();
@@ -17,12 +18,10 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
 
         if (string.IsNullOrEmpty(username))
         {
-            // Inte inloggad
             var anonymous = new ClaimsPrincipal(new ClaimsIdentity());
             return new AuthenticationState(anonymous);
         }
 
-        // Skapa claims
         var identity = new ClaimsIdentity(new[]
         {
             new Claim(ClaimTypes.Name, username),
@@ -32,7 +31,7 @@ public class CustomAuthenticationStateProvider : AuthenticationStateProvider
         var user = new ClaimsPrincipal(identity);
         return new AuthenticationState(user);
     }
-
+    // Method to notify the authentication state has changed needs to be called when the user logs in or logs out
     public void NotifyAuthenticationChanged()
     {
         NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
