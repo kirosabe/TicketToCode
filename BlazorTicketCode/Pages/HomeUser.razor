@@ -43,7 +43,7 @@
                                         Location <!-- Add location? -->
                                     </p>
                                 </div>
-                                <a href="#">Cancel</a>
+                                <button @onclick="() => CancelBooking(booking.BookingId)">Cancel</button>
                             </section>
                         </article>
                     </div>
@@ -64,19 +64,28 @@
             bookings = await Http.GetFromJsonAsync<List<UserBookingDto>>($"users/{username}/bookings");
         }
     }
+    private async Task CancelBooking(int id)
+    {
+        var response = await Http.DeleteAsync($"bookings/{id}/cancel");
+
+        var bookingToRemove = bookings.FirstOrDefault(b => b.BookingId == id);
+        if (bookingToRemove != null)
+        {
+            bookings.Remove(bookingToRemove);
+        }
+        else
+        {
+            Console.WriteLine("Failed to cancel booking");
+        }
+    }
+
     public class UserBookingDto
     {
+		public int BookingId { get; set; }
         public string? EventName { get; set; }
         public int Tickets { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public DateTime Start { get; set; }
-    }
-
-    public enum PaymentMethod
-    {
-        CreditCard = 0,
-        Swish,
-        Invoice
     }
 }

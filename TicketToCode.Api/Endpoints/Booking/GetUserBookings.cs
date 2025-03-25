@@ -13,6 +13,7 @@ public class GetUserBookings : IEndpoint
         .WithSummary("Get all bookings for a user by username");
 
     public record Response(
+        int BookingId,
         string? EventName,
         int Tickets,
         string FirstName,
@@ -32,6 +33,7 @@ public class GetUserBookings : IEndpoint
             return Results.NotFound("User not found");
 
         var result = user.Bookings.Select(b => new Response(
+            b.BookingId,
             b.Event?.Name,
             b.Tickets,
             b.FirstName,
