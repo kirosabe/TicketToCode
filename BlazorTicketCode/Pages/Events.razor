@@ -1,21 +1,32 @@
-﻿@page "/events" 
+﻿@page "/events/{category?}"
 @inject HttpClient Http
+@inject NavigationManager Navigation
 
-<h3></h3>
+<h3>@(selectedCategory != null ? $"{selectedCategory} Events" : "Alla Event")</h3>
+
+<!-- Filter-knappar -->
+<div class="filters">
+    <button @onclick="() => NavigateToCategory(null)">Alla</button>
+    <button @onclick="() => NavigateToCategory(EventType.Concert)">Concert</button>
+    <button @onclick="() => NavigateToCategory(EventType.Festival)">Festival</button>
+    <button @onclick="() => NavigateToCategory(EventType.Theatre)">Theatre</button>
+    <button @onclick="() => NavigateToCategory(EventType.Other)">Other</button>
+</div>
+
+<!-- Sorteringsknappar -->
 <div class="filters">
     <button @onclick="@(async () => await SortEvents("asc"))">Närmast i tid</button>
     <button @onclick="@(async () => await SortEvents("desc"))">Längst bort i tid</button>
-
 </div>
 
-@if (events == null)
+@if (filteredEvents == null)
 {
     <p><em>Laddar...</em></p>
 }
 else
 {
     <div class="events-container">
-        @foreach (var eventItem in events)
+        @foreach (var eventItem in filteredEvents)
         {
             <div class="event-card" @onclick="() => ToggleEventDetails(eventItem)">
                 <h4>@eventItem.Name</h4>
@@ -25,7 +36,7 @@ else
                     <div class="event-details">
                         <p>@eventItem.Description</p>
                         <div class="event-footer">
-                            <a href='https://localhost:7075/events'> <button class="btn-register">Biljetter</button></a> <!-- Replace link -->
+                            <a href='https://localhost:7075/events'> <button class="btn-register">Biljetter</button></a>
                         </div>
                     </div>
                 }
@@ -35,14 +46,36 @@ else
 }
 
 @code {
-    private List<EventResponse> events;
+    [Parameter] public string Category { get; set; } // Tar emot kategori från URL
 
+    private List<EventResponse> events;
+    private List<EventResponse> filteredEvents;
     private string sortOrder = "asc";
+    private EventType? selectedCategory = null;
 
     protected override async Task OnInitializedAsync()
     {
-        
-            await LoadEvents(sortOrder);
+        await LoadEvents(sortOrder);
+        HandleCategoryFromUrl();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        HandleCategoryFromUrl();
+    }
+
+    private void HandleCategoryFromUrl()
+    {
+        if (!string.IsNullOrEmpty(Category) && Enum.TryParse(Category, true, out EventType parsedCategory))
+        {
+            selectedCategory = parsedCategory;
+        }
+        else
+        {
+            selectedCategory = null; // Visa alla event om ingen kategori är angiven
+        }
+
+        FilterEvents(selectedCategory);
     }
 
     private async Task LoadEvents(string sortOrder)
@@ -53,6 +86,7 @@ else
             if (response.IsSuccessStatusCode)
             {
                 events = await response.Content.ReadFromJsonAsync<List<EventResponse>>();
+                FilterEvents(selectedCategory);
             }
         }
         catch (Exception)
@@ -63,14 +97,40 @@ else
     private async Task SortEvents(string order)
     {
         sortOrder = order;
-        await LoadEvents(order); 
+        await LoadEvents(order);
+    }
+
+    private void FilterEvents(EventType? category)
+    {
+        selectedCategory = category;
+
+        if (category == null)
+        {
+            filteredEvents = new List<EventResponse>(events);
+        }
+        else
+        {
+            filteredEvents = events?.Where(e => e.Type == category).ToList();
+        }
+    }
+
+    private void NavigateToCategory(EventType? category)
+    {
+        if (category == null)
+        {
+            Navigation.NavigateTo("/events");
+        }
+        else
+        {
+            Navigation.NavigateTo($"/events/{category}");
+        }
     }
 
     private void ToggleEventDetails(EventResponse eventItem)
     {
         if (!eventItem.ShowDetails)
         {
-            foreach (var ev in events)
+            foreach (var ev in filteredEvents)
             {
                 if (ev != eventItem)
                 {
@@ -79,11 +139,6 @@ else
             }
             eventItem.ShowDetails = true;
         }
-    }
-    
-    private void CloseDetails(EventResponse eventItem)
-    {
-        eventItem.ShowDetails = false;
     }
 
     public class EventResponse
