@@ -1,25 +1,80 @@
 ﻿@page "/"
 @inject NavigationManager Navigation
+
+<style>
+    body {
+        background-color: #F3EFEB;
+    }
+</style>
+
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<header>
+    <h1>Golden Ticket</h1>
+    <h2>Your ticket to unforgettable experiences</h2>
+</header>
 
-Welcome to your new app.
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <img src="/img/concert.jpg" alt="concert" class="img-fluid w-100 h-100 object-fit-cover" />
+                    <button @onclick="() => NavigateToCategory(EventType.Concert)" class="btn btn-outline-dark">Concert</button>
+                </div>
+            </div>
+        </div>
 
-<button @onclick="NavigateToLogin" class="btn btn-primary">Login</button>
-<button @onclick="NavigateToSignup" class="btn btn-primary">Sign up here!</button>
+        <div class="col-6">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <img src="/img/festival.jpg" alt="festival" class="img-fluid w-100 h-100 object-fit-cover" />
+                    <button @onclick="() => NavigateToCategory(EventType.Festival)" class="btn btn-outline-dark">Festival</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <img src="/img/theatre.jpg" alt="theatre" class="img-fluid w-100 h-100 object-fit-cover" />
+                    <button @onclick="() => NavigateToCategory(EventType.Theatre)" class="btn btn-outline-dark">Theatre</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <img src="/img/foodmarket.jpg" alt="foodmarket" class="img-fluid w-100 h-100 object-fit-cover" />
+                    <button @onclick="() => NavigateToCategory(EventType.Other)" class="btn btn-outline-dark">Other</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @code {
+    public void NavigateToCategory(EventType category)
+    {
+        Navigation.NavigateTo($"/events/{category}");
+    }
+
     public void NavigateToLogin()
     {
-        // Navigera till inloggningssidan
         Navigation.NavigateTo("/login");
     }
 
-        private void NavigateToSignup()
+    private void NavigateToSignup()
     {
-        // Navigera till inloggningssidan
         Navigation.NavigateTo("/signup");
     }
-    
+
+    public enum EventType
+    {
+        Concert,
+        Festival,
+        Theatre,
+        Other
+    }
 }
