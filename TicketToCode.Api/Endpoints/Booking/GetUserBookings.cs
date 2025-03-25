@@ -13,13 +13,12 @@ public class GetUserBookings : IEndpoint
         .WithSummary("Get all bookings for a user by username");
 
     public record Response(
-        int BookingId,
-        int EventId,
         string? EventName,
         int Tickets,
-        PaymentMethod PaymentMethod,
         string FirstName,
-        string LastName
+        string LastName,
+        DateTime? Start
+
     );
     // Logic
     private static async Task<IResult> Handle(string username, [FromServices] AppDbContext db)
@@ -33,13 +32,11 @@ public class GetUserBookings : IEndpoint
             return Results.NotFound("User not found");
 
         var result = user.Bookings.Select(b => new Response(
-            b.BookingId,
-            b.EventId,
             b.Event?.Name,
             b.Tickets,
-            b.PaymentMethod,
             b.FirstName,
-            b.LastName
+            b.LastName,
+            b.Event?.StartTime
         ));
 
         return Results.Ok(result);
