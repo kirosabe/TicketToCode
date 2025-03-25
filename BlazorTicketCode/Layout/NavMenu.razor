@@ -17,11 +17,13 @@
                         <span class="bi bi-list-nested-nav-menu"></span> Events
                     </NavLink>
                 </div>
+                <AuthorizeView Roles="User">
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="booking">
                         <span class="bi bi-plus-square-fill-nav-menu"></span> Book now!
                     </NavLink>
                 </div>
+                </AuthorizeView>
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="login">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
@@ -43,7 +45,7 @@
                 @if (showDropdown)
                 {
                     <div class="dropdown-menu show">
-                        <a class="dropdown-item" href="/profile">Profile</a>
+                        <a class="dropdown-item" href="/user/home">Profile</a>
 
                         @if (isLoggedIn)
                         {
