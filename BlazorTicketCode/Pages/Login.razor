@@ -1,7 +1,8 @@
-﻿
-@page "/login"
+﻿@page "/login"
 @using TicketToCode.Core.Models
 @inject HttpClient Http
+@inject AuthStateService Auth
+@inject AuthenticationStateProvider AuthProvider
 @inject NavigationManager Navigation
 
 <div class="container mt-5">
@@ -50,38 +51,35 @@
 
     private async Task LoginUser()
     {
-        try
+        var result = await Http.PostAsJsonAsync("auth/login", new
         {
-            var request = new { Username = user.Username, Password = user.PasswordHash };
-            var response = await Http.PostAsJsonAsync("auth/login", request);
-
-            if (response.IsSuccessStatusCode)
+            username = user.Username,
+            password = user.PasswordHash
+        });
+        if (result.IsSuccessStatusCode)
+        {
+            var loginResponse = await result.Content.ReadFromJsonAsync<LoginResponse>();
+            await Auth.SetAuth(loginResponse.Username, loginResponse.Role);
+            if (AuthProvider is CustomAuthenticationStateProvider customAuth)
             {
-                var loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>();
-
-                if (loginResponse != null)
+                customAuth.NotifyAuthenticationChanged();
+            }
+            if (loginResponse != null)
+            {
+                
+                if (loginResponse.Role.Trim().ToLower() == "admin")
                 {
-                    
-
-                    if (loginResponse.Role.Trim().ToLower() == "admin") 
-                    {
-                        Navigation.NavigateTo("/admin/home");
-                    }
-                    else
-                    {
-                        Navigation.NavigateTo("/events");
-                    }
+                    Navigation.NavigateTo("/admin/home");
+                }
+                else
+                {
+                    Navigation.NavigateTo("/events");
                 }
             }
-
-            else
-            {
-                errorMessage = "Felaktigt användarnamn eller lösenord.";
-            }
         }
-        catch (Exception ex)
+        else
         {
-            errorMessage = "Ett fel uppstod vid inloggning.";
+            errorMessage = "Felaktigt användarnamn eller lösenord.";
         }
     }
 

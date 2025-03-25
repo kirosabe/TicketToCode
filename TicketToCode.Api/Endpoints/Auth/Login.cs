@@ -31,12 +31,6 @@ public class Login : IEndpoint
         {
             return TypedResults.BadRequest("Invalid username or password");
         }
-        context.Response.Cookies.Append("auth", $"{user.Username}:{user.Role}", new CookieOptions
-        {
-            HttpOnly = true,
-            SameSite = SameSiteMode.Strict,
-            Expires = DateTimeOffset.UtcNow.AddDays(7)
-        });
         var response = new Response(user.Username, user.Role);
         return TypedResults.Ok(response);
     }
