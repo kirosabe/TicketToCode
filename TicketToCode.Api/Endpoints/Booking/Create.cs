@@ -10,6 +10,7 @@ public class CreateBooking : IEndpoint
         .WithSummary("Create booking");
     public record Request(
         int EventId,
+        string Username,
         string FirstName,
         string LastName,
         string Phone,
@@ -21,11 +22,19 @@ public class CreateBooking : IEndpoint
     public record Response(int BookingId);
 
     //Logic
-    private static async Task<Ok<Response>> Handle(Request request, [FromServices] AppDbContext db)
+    // Changed Task<Ok<Response>> to Task<IResult> to handle BadRequest if user not found
+    private static async Task<IResult> Handle(Request request, [FromServices] AppDbContext db)
     {
+        // Gets UserId from Username that is passed in the request from the client
+        var user = await db.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
+        if (user is null)
+        {
+            return TypedResults.BadRequest("User not found.");
+        }
         var b = new Booking();
 
         b.EventId = request.EventId;
+        b.UserId = user.Id;
         b.FirstName = request.FirstName;
         b.LastName = request.LastName;
         b.Phone = request.Phone;

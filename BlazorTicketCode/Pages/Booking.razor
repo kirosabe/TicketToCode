@@ -6,6 +6,7 @@
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject BookingState BookingState
+@inject AuthStateService Auth
 
 <PageTitle>Book now</PageTitle>
 
@@ -89,17 +90,30 @@
 	}
 	private async Task SubmitBooking()
 	{
-		var response = await Http.PostAsJsonAsync("https://localhost:7206/bookings", booking);
+		var username = await Auth.GetUsername();
 
-			if (response.IsSuccessStatusCode)
-			{
+		var requestBody = new
+		{
+			booking.EventId,
+			Username = username,
+			booking.FirstName,
+			booking.LastName,
+			booking.Phone,
+			booking.Email,
+			booking.Tickets,
+			booking.PaymentMethod
+		};
+
+		var response = await Http.PostAsJsonAsync("https://localhost:7206/bookings", requestBody);
+
+		if (response.IsSuccessStatusCode)
+		{
 			BookingState.CurrentBooking = booking;
 			Navigation.NavigateTo("/booking/confirmation");
-			}
-			else
-			{
-				Console.WriteLine("Booking failed");
-			}
+		}
+		else
+		{
+			Console.WriteLine("Booking failed");
 		}
 	}
 }
