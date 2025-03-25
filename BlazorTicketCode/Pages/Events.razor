@@ -2,22 +2,23 @@
 @inject HttpClient Http
 @inject NavigationManager Navigation
 
-<h3>@(selectedCategory != null ? $"{selectedCategory} Events" : "Alla Event")</h3>
+<h1>@(selectedCategory != null ? $"{selectedCategory} Events" : "All Events")</h1>
 
-<!-- Filter-knappar -->
-<div class="filters">
-    <button @onclick="() => NavigateToCategory(null)">Alla</button>
-    <button @onclick="() => NavigateToCategory(EventType.Concert)">Concert</button>
-    <button @onclick="() => NavigateToCategory(EventType.Festival)">Festival</button>
-    <button @onclick="() => NavigateToCategory(EventType.Theatre)">Theatre</button>
-    <button @onclick="() => NavigateToCategory(EventType.Other)">Other</button>
+<div class="button-container">
+    <button class="filter-btn @(selectedCategory == null ? "active" : "")" @onclick="() => NavigateToCategory(null)">All</button>
+    <button class="filter-btn @(selectedCategory == EventType.Concert ? "active" : "")" @onclick="() => NavigateToCategory(EventType.Concert)">Concert</button>
+    <button class="filter-btn @(selectedCategory == EventType.Festival ? "active" : "")" @onclick="() => NavigateToCategory(EventType.Festival)">Festival</button>
+    <button class="filter-btn @(selectedCategory == EventType.Theatre ? "active" : "")" @onclick="() => NavigateToCategory(EventType.Theatre)">Theatre</button>
+    <button class="filter-btn @(selectedCategory == EventType.Other ? "active" : "")" @onclick="() => NavigateToCategory(EventType.Other)">Other</button>
 </div>
 
-<!-- Sorteringsknappar -->
-<div class="filters">
-    <button @onclick="@(async () => await SortEvents("asc"))">Närmast i tid</button>
-    <button @onclick="@(async () => await SortEvents("desc"))">Längst bort i tid</button>
+
+<div class="button-container">
+    <button class="sort-btn" @onclick="@(async () => await SortEvents("asc"))">Upcoming Soon </button>
+    <button class="sort-btn" @onclick="@(async () => await SortEvents("desc"))">Farthest Away</button>
 </div>
+
+
 
 @if (filteredEvents == null)
 {
@@ -36,7 +37,7 @@ else
                     <div class="event-details">
                         <p>@eventItem.Description</p>
                         <div class="event-footer">
-                            <a href='https://localhost:7075/events'> <button class="btn-register">Biljetter</button></a>
+                            <a href='https://localhost:7075/booking'> <button class="btn-register">Tickets</button></a>
                         </div>
                     </div>
                 }
