@@ -24,6 +24,10 @@
 {
     <p><em>Laddar...</em></p>
 }
+else if (!filteredEvents.Any())
+{
+    <p>No match.</p>
+}
 else
 {
     <div class="events-container">
@@ -47,7 +51,8 @@ else
 }
 
 @code {
-    [Parameter] public string Category { get; set; } // Tar emot kategori från URL
+    [Parameter] public string Category { get; set; }
+    [Parameter][SupplyParameterFromQuery] public string Search { get; set; }
 
     private List<EventResponse> events;
     private List<EventResponse> filteredEvents;
@@ -63,6 +68,7 @@ else
     protected override async Task OnParametersSetAsync()
     {
         HandleCategoryFromUrl();
+        ApplySearch();
     }
 
     private void HandleCategoryFromUrl()
@@ -73,7 +79,7 @@ else
         }
         else
         {
-            selectedCategory = null; // Visa alla event om ingen kategori är angiven
+            selectedCategory = null;
         }
 
         FilterEvents(selectedCategory);
@@ -88,6 +94,7 @@ else
             {
                 events = await response.Content.ReadFromJsonAsync<List<EventResponse>>();
                 FilterEvents(selectedCategory);
+                ApplySearch();
             }
         }
         catch (Exception)
@@ -113,18 +120,28 @@ else
         {
             filteredEvents = events?.Where(e => e.Type == category).ToList();
         }
+
+        ApplySearch();
+    }
+
+    private void ApplySearch()
+    {
+        if (string.IsNullOrWhiteSpace(Search))
+        {
+            return;
+        }
+        var searchTerm = Search.ToLower();
+        filteredEvents = filteredEvents?
+            .Where(e => e.Name.ToLower().Contains(searchTerm) ||
+                       e.Description.ToLower().Contains(searchTerm))
+            .ToList();
     }
 
     private void NavigateToCategory(EventType? category)
     {
-        if (category == null)
-        {
-            Navigation.NavigateTo("/events");
-        }
-        else
-        {
-            Navigation.NavigateTo($"/events/{category}");
-        }
+        var baseUrl = category == null ? "/events" : $"/events/{category}";
+        var searchParam = !string.IsNullOrEmpty(Search) ? $"?search={Uri.EscapeDataString(Search)}" : "";
+        Navigation.NavigateTo($"{baseUrl}{searchParam}");
     }
 
     private void ToggleEventDetails(EventResponse eventItem)

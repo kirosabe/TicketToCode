@@ -22,20 +22,46 @@
                         <span class="bi bi-plus-square-fill-nav-menu"></span> Book now!
                     </NavLink>
                 </div>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="login">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                        </svg> Log in/Sign up!
-                    </NavLink>
+                @if (!isLoggedIn)
+                {
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="login">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                            </svg> Log in/Sign up!
+                        </NavLink>
+                    </div>
+                }
+            </div>
+
+            <!-- Sökfält -->
+            <div class="search-container ms-auto me-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Sök events..."
+                           @bind="searchTerm"
+                           @bind:event="oninput"
+                           @onkeyup="HandleKeyPress" />
+                    @if (!string.IsNullOrWhiteSpace(searchTerm))
+                    {
+                        <button class="btn btn-outline-light clear-search" @onclick="ClearSearch">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </button>
+                    }
+                    <button class="btn btn-outline-light" @onclick="SearchEvents">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                        </svg>
+                    </button>
                 </div>
             </div>
 
             @* Profile dropdown menu*@
-            <div class="nav-item px-3 ms-auto dropdown" @onclick="ToggleDropdown">
+            <div class="nav-item px-3 dropdown" @onclick="ToggleDropdown">
                 <button class="btn btn-outline-light dropdown-toggle" type="button">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-person-fill" viewBox="0 0 16 16">
+                         class="bi bi-person-fill" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
                     </svg>
                 </button>
@@ -62,6 +88,7 @@
 @code {
     private bool showDropdown = false;
     private bool isLoggedIn = false;
+    private string searchTerm = "";
 
     // Checks if User is logged in or not on start
     protected override async Task OnInitializedAsync()
@@ -72,7 +99,11 @@
 	// Triggers when auth state changes
     private void OnAuthStateChanged()
     {
-        _ = InvokeAsync(UpdateLoginStatus);
+        InvokeAsync(async () =>
+        {
+            await UpdateLoginStatus();
+            StateHasChanged();
+        });
     }
 	// Method to update login status and show dropdown menu
     private async Task UpdateLoginStatus()
@@ -86,10 +117,12 @@
     {
         showDropdown = !showDropdown;
     }
-	// Logout method to sign out user and update UI and AuthState
+
     private async Task Logout()
     {
         await Auth.Logout();
+        isLoggedIn = false;
+        showDropdown = false;
         if (AuthProvider is CustomAuthenticationStateProvider custom)
         {
             custom.NotifyAuthenticationChanged();
@@ -97,6 +130,28 @@
         Navigation.NavigateTo("/login");
     }
     // Dispose method to remove event listener
+    private void HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            SearchEvents();
+        }
+    }
+
+    private void SearchEvents()
+    {
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            Navigation.NavigateTo($"/events?search={Uri.EscapeDataString(searchTerm)}");
+        }
+    }
+
+    private void ClearSearch()
+    {
+        searchTerm = "";
+        Navigation.NavigateTo("/events");
+    }
+
     public void Dispose()
     {
         Auth.AuthStateChanged -= OnAuthStateChanged;
