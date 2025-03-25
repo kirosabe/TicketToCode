@@ -10,9 +10,33 @@ public class GetAllBookings : IEndpoint
         .MapGet("/bookings", Handle)
         .WithSummary("Get all bookings");
 
-    private static async Task<Ok<List<Booking>>> Handle([FromServices] AppDbContext db)
+    public record Response(
+        int BookingId,
+        string EventName,
+        string FirstName,
+        string LastName,
+        string Email,
+        string Phone,
+        int Tickets,
+        PaymentMethod PaymentMethod
+    );
+
+    private static async Task<Ok<List<Response>>> Handle([FromServices] AppDbContext db)
     {
-        var bookings = await db.Bookings.ToListAsync();
+        var bookings = await db.Bookings
+            .Include(b => b.Event)
+            .Select(b => new Response(
+                b.BookingId,
+                b.Event.Name,
+                b.FirstName,
+                b.LastName,
+                b.Email,
+                b.Phone,
+                b.Tickets,
+                b.PaymentMethod
+            ))
+            .ToListAsync();
+
         return TypedResults.Ok(bookings);
     }
 } 
