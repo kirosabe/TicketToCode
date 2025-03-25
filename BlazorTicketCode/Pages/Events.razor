@@ -36,6 +36,7 @@ else
                 {
                     <div class="event-details">
                         <p>@eventItem.Description</p>
+                        <p>@eventItem.Price</p>
                         <div class="event-footer">
                             <a href='https://localhost:7075/booking'> <button class="btn-register">Tickets</button></a>
                         </div>
@@ -152,6 +153,7 @@ else
         public DateTime End { get; set; }
         public int MaxAttendees { get; set; }
         public bool ShowDetails { get; set; }
+        public decimal Price { get; set; }
     }
 
     public enum EventType

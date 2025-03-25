@@ -4,40 +4,37 @@
 @implements IDisposable
 <div class="nav-top-row px-4">
     <div class="container-fluid">
-        <nav class="d-flex align-items-center w-100">
-            <!-- Menyalternativ till vänster -->
-            <div class="d-flex">
+        <nav class="d-flex align-items-center w-100 justify-content-end">
+     <h1>Golden Ticket</h1>
+            
+            <div class="d-flex ms-auto">
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="">
                         <span class="bi bi-house-door-fill-nav-menu"></span> Home
                     </NavLink>
                 </div>
-                <div class="nav-item px-3">
+                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="events">
-                        <span class="bi bi-list-nested-nav-menu"></span> Events
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
+                        </svg> Events
                     </NavLink>
                 </div>
                 <AuthorizeView Roles="User">
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="booking">
-                        <span class="bi bi-plus-square-fill-nav-menu"></span> Book now!
-                    </NavLink>
-                </div>
-                </AuthorizeView>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="login">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
-                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15" />
-                        </svg> Log in/Sign up!
-                    </NavLink>
+                        <span class="bi bi-plus-square-fill-nav-menu"></span> Tickets
+                  </NavLink>
                 </div>
             </div>
+                   
+           
 
-            @* Profile dropdown menu*@
-            <div class="nav-item px-3 ms-auto dropdown" @onclick="ToggleDropdown">
-                <button class="btn btn-outline-light dropdown-toggle" type="button">
+            <!-- Profile dropdown menu (Hålls också till höger) -->
+            <div class="nav-item px-3 dropdown">
+                <button class="btn btn-outline-light dropdown-toggle" type="button" @onclick="ToggleDropdown">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-person-fill" viewBox="0 0 16 16">
+                         class="bi bi-person-fill" viewBox="0 0 16 16">
                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
                     </svg>
                 </button>
@@ -61,6 +58,10 @@
         </nav>
     </div>
 </div>
+
+               
+
+            
 @code {
     private bool showDropdown = false;
     private bool isLoggedIn = false;

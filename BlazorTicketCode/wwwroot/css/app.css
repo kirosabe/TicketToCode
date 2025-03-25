@@ -7,6 +7,14 @@ html, body {
     background-color: #e9eaf0;
 }
 
+h1 {
+    text-align: center;
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 40px;
+    color: #1C3D5A;
+}
+
 h1:focus {
     outline: none;
 }
@@ -150,7 +158,7 @@ code {
 }
 
 .event-card {
-    background: #fff;
+    background: #eee;
     border-radius: 12px;
     padding: 1.5rem;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -175,21 +183,95 @@ code {
 }
 
 .btn-register {
-    background: #6c5ce7;
-    color: #fff;
+    background: #1C3D5A;
+    color: #eee;
     border: none;
     padding: 0.5rem 1.5rem;
     border-radius: 8px;
     transition: all 0.3s ease;
 }
 
-.btn-register:hover {
-    cursor: pointer;
-    background: #5b4dd1;
-    transform: translateY(-2px);
-}
+    .btn-register:hover {
+        cursor: pointer;
+        background: #4A7DB3;
+        transform: translateY(-2px);
+    }
+
+   
 
 article {
     padding: 0;
     margin: 0;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 40px;
+    flex-wrap: wrap;
+}
+
+.filter-btn, .sort-btn {
+    padding: 10px 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.filter-btn {
+    background: #f7b267;
+    color: white;
+    border: 2px solid transparent;
+}
+
+    .filter-btn:hover {
+        background: #f7cfa3;
+        transform: translateY(-2px);
+    }
+
+    .filter-btn.active {
+        background: #f7b267;
+        color: black;
+    }
+
+.sort-btn {
+    background: #1C3D5A ;
+    color: white;
+}
+
+    .sort-btn:hover {
+        background: #4A7DB3;
+        transform: translateY(-2px);
+    }
+
+    .sort-btn.active {
+        color:black;
+    }
+
+.loading-text {
+    text-align: center;
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+/** Login/ Signup**/
+
+
+.btn-outline-success {
+    background: #f7b267;
+    border:none;
+    color: white;
+}
+
+.btn-outline-success:hover {
+    background: #fccb95;
+}
+
+.btn-outline-success.active {
+    background: #f7b267;
+    border: none;
 }
