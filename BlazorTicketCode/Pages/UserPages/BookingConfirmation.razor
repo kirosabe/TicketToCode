@@ -4,6 +4,7 @@
 @page "/booking/confirmation"
 @inject HttpClient Http
 @inject BookingState BookingState
+@attribute [Authorize(Roles = "User")]
 
 <PageTitle>Booking Confirmation</PageTitle>
 

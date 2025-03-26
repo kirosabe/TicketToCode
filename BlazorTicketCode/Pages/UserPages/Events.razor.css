@@ -4,12 +4,12 @@
 }
 .welcome-container {
     margin: 0 auto;
-    margin-bottom: 3rem;
-    padding: 1rem 1rem 1rem 0;
+    padding: 1rem;
     color: #424b54;
     position: relative;
     overflow: hidden;
     text-align: center;
+    padding-bottom: 0;
 }
 
 h1 {
@@ -35,7 +35,6 @@ p.lead.mb-4 {
     color: white;
     text-transform: uppercase;
     letter-spacing: 1px;
-    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
 }
 
     .btn-primary:hover {
@@ -89,15 +88,16 @@ footer {
         display: none;
     }
     .welcome-container {
+        padding: 0.8rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
     .btn-primary {
         font-size: 0.7rem;
-        padding: 5px;
+        padding: 3px;
         height: 3rem;
-        width: 8rem;
+        width: 10rem;
     }
     h1 {
         font-size: 1.5rem;
@@ -106,9 +106,6 @@ footer {
 @media (max-width: 630px) {
     h1 {
         display: none;
-    }
-    .welcome-container {
-        padding: 0.5rem;
     }
 } 
 

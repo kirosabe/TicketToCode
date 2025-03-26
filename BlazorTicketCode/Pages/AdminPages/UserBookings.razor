@@ -1,13 +1,14 @@
 @page "/admin/user-bookings"
 @using TicketToCode.Core.Models
 @inject HttpClient Http
+@attribute [Authorize(Roles = "Admin")]
 @inject IJSRuntime JSRuntime
 
 <PageTitle>User Bookings</PageTitle>
 
 <div class="admin-page">
     <div class="container-fluid mt-4">
-        <h1 class="text-center">User Bookings</h1>
+        <h1 class="display-4 fw-bold">User Bookings</h1>
 
         @if (bookings == null)
         {
