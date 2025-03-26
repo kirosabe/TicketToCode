@@ -43,6 +43,7 @@ public class AuthService : IAuthService
         var user = new User(username, BCrypt.Net.BCrypt.HashPassword(password));
 
         _database.Users.Add(user);
+        _database.SaveChanges();
         return user;
     }
 } 
