@@ -1,7 +1,11 @@
 ﻿.admin-page {
     padding: 1rem;
 }
-
+.table {
+    background-color: red;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
     .admin-page h1 {
         font-weight: 700;
         letter-spacing: 2px;
