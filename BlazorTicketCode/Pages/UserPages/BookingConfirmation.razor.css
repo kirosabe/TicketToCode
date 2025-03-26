@@ -1,0 +1,56 @@
+﻿.confirmation-page {
+    margin-top:20px;
+    min-height: 100vh; 
+    background: #f4f6f9;
+    width: 100%;
+}
+
+.form-container {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px; 
+    text-align: center;
+}
+
+.confirmation-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #1C3D5A;
+}
+
+.booking-details {
+    text-align: left;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+    .booking-details p {
+        margin-bottom: 0.5rem;
+        color: #2d3436;
+    }
+
+.btn-primary {
+    background: linear-gradient(135deg, #0A192F, #1C3D5A, #4A7DB3);
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    width: 100%;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+    }
+
+.alert {
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1rem;
+}
