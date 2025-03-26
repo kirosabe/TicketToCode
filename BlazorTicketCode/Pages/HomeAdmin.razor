@@ -10,8 +10,9 @@
     <h1 class="display-4 fw-bold">Welcome Admin!</h1>
     <p class="lead mb-4">Manage and create amazing events effortlessly.</p>
     <button class="btn btn-primary btn-lg shadow-lg" @onclick="GoToCreateEvent">Create an Event</button>
-    <button class="btn btn-primary btn-lg shadow-lg" @onclick="ManageStatistics">Manage Statistics</button>
+    <button class="btn btn-primary btn-lg shadow-lg" @onclick="ManageStatistics">Statistics</button>
     <button class="btn btn-primary btn-lg shadow-lg" @onclick="ViewUserBookings">View User Bookings</button>
+    <button class="btn btn-primary btn-lg shadow-lg" @onclick="ManageUsers">Manage Users</button>
 </div>
 
 
@@ -65,6 +66,10 @@
         {
             // Ignorera fel
         }
+    }
+    private void ManageUsers()
+    {
+        Navigation.NavigateTo("/admin/edit/users");
     }
 
     private void ManageStatistics()
