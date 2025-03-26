@@ -6,6 +6,8 @@ h1 {
     font-weight: bold;
     font-size: 3rem;
     margin-top: 20px;
+    margin-left: 0;
+    margin-bottom: 20px;
     filter: contrast(1.2) brightness(1.1);
 }
 

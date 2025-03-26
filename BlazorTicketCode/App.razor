@@ -5,9 +5,11 @@
             @* AuthorizeRouteView required to enable [Authorize] and role-based access control on pages *@
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
+                    <div class="AccessDenied">
                     <h3>Access Denied</h3>
                     <p>You don´t have promission to view this page</p>
                     <p><a href="/login">Sign in</a> or <a href="/">Back to Homepage</a></p>
+                    </div>
                 </NotAuthorized>
             </AuthorizeRouteView>
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
