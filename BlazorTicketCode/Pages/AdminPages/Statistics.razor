@@ -1,6 +1,7 @@
 @page "/statistics"
 @using TicketToCode.Core.Models
 @inject HttpClient Http
+@attribute [Authorize(Roles = "Admin")]
 
 <PageTitle>Event Statistics</PageTitle>
 
