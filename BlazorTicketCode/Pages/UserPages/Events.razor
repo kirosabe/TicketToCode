@@ -42,7 +42,7 @@ else
                         <p>@eventItem.Description</p>
                         <p>@eventItem.Price.ToString("C")</p>
                         <div class="event-footer">
-                            <a href='https://localhost:7075/booking'> <button class="btn-register">Tickets</button></a>
+                            <AuthorizeView Roles="User"><a href='https://localhost:7075/booking'> <button class="btn-register">Tickets</button></a></AuthorizeView>
                         </div>
                     </div>
                 }
