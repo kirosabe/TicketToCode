@@ -5,7 +5,6 @@
 .welcome-container {
     margin: 0 auto;
     padding: 4rem 2rem;
-   // background: #aeb4a9;
     color: #424b54;
     position: relative;
     overflow: hidden;
@@ -21,7 +20,7 @@ h1 {
 }
 
 .btn-primary {
-    background: #60495a;
+    background: #f7b267;
     border: none;
     padding: 1rem 2rem;
     font-size: 1.1rem;

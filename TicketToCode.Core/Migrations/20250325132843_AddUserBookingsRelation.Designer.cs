@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TicketToCode.Core.Data;
 
@@ -11,9 +12,11 @@ using TicketToCode.Core.Data;
 namespace TicketToCode.Core.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250325132843_AddUserBookingsRelation")]
+    partial class AddUserBookingsRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,8 +62,6 @@ namespace TicketToCode.Core.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("BookingId");
-
-                    b.HasIndex("EventId");
 
                     b.HasIndex("UserId");
 
@@ -184,26 +185,13 @@ namespace TicketToCode.Core.Migrations
 
             modelBuilder.Entity("TicketToCode.Core.Models.Booking", b =>
                 {
-                    b.HasOne("TicketToCode.Core.Models.Event", "Event")
-                        .WithMany()
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TicketToCode.Core.Models.User", "User")
-                        .WithMany("Bookings")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Event");
-
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("TicketToCode.Core.Models.User", b =>
-                {
-                    b.Navigation("Bookings");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,14 +2,16 @@
 @using Microsoft.AspNetCore.Components.Web
 @using TicketToCode.Core.Models;
 @page "/booking"
+@attribute [Authorize(Roles = "User")]
 @inject HttpClient Http
 @inject NavigationManager Navigation
 @inject BookingState BookingState
+@inject AuthStateService Auth
 
 <PageTitle>Book now</PageTitle>
 
 <div class="booking-container">
-	<h1>Book your event with us</h1>
+	<h1>Book Your Event With Us</h1>
 
 	<div class="form-container">
 		<EditForm Model="@booking" OnValidSubmit="SubmitBooking">
@@ -88,17 +90,31 @@
 	}
 	private async Task SubmitBooking()
 	{
-		var response = await Http.PostAsJsonAsync("https://localhost:7206/bookings", booking);
+		var username = await Auth.GetUsername();
 
-			if (response.IsSuccessStatusCode)
-			{
+		// Create the request body for API with username
+		var requestBody = new
+		{
+			booking.EventId,
+			Username = username,
+			booking.FirstName,
+			booking.LastName,
+			booking.Phone,
+			booking.Email,
+			booking.Tickets,
+			booking.PaymentMethod
+		};
+
+		var response = await Http.PostAsJsonAsync("https://localhost:7206/bookings", requestBody);
+
+		if (response.IsSuccessStatusCode)
+		{
 			BookingState.CurrentBooking = booking;
 			Navigation.NavigateTo("/booking/confirmation");
-			}
-			else
-			{
-				Console.WriteLine("Booking failed");
-			}
+		}
+		else
+		{
+			Console.WriteLine("Booking failed");
 		}
 	}
 }

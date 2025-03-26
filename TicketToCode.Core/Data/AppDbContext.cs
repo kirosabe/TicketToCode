@@ -75,7 +75,12 @@ namespace TicketToCode.Core.Data
                     MaxAttendees = 150,
                     Price = 150
                 }
-            );
+            ); 
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.User)
+                .WithMany(u => u.Bookings)
+                .HasForeignKey(b => b.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

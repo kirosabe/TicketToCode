@@ -1,23 +1,6 @@
 ﻿div {
-    background: #F3EFEB;
-}
-
-
-h1 {
-    background: linear-gradient(45deg, #FFDF00, #FFD700, #FFC700, #DAA520);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 1px 1px 1px rgba(139, 69, 19, 0.8), /* Djupare skugga men skarp */
-    -1px -1px 1px rgba(255, 239, 184, 0.9), /* Ljus reflektion utan suddighet */
-    0px 0px 2px rgba(255, 215, 0, 0.7);
-    text-align: center;
-    font-weight: bold;
-    font-size: 5rem;
+    background: #e9eaf0;
     margin-top: 20px;
-    filter: contrast(1.2) brightness(1.1);
-}
-h2{
-    text-align:center;
 }
 
 .card {

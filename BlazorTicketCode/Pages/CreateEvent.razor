@@ -7,7 +7,8 @@
 @inject NavigationManager Navigation
 
 <div class="create-container ms-4" >
-    <h1>Create/Update event</h1>
+    <h1>@(EventId.HasValue && EventId.Value > 0 ? "Edit Event" : "Create Event")</h1>
+
 
     <div class="form-container">
 
