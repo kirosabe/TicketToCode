@@ -25,10 +25,9 @@ public class CreateEvent : IEndpoint
     //Logic
     private static async Task<Ok<Response>> Handle(Request request, [FromServices] AppDbContext db)
     {
-        // Todo, use a better constructor that enforces setting all necessary properties
+        
         var ev = new Event();
 
-        // Map request to an event-object
         ev.Name = request.Name;
         ev.Description = request.Description;
         ev.Type = request.Type;
@@ -38,7 +37,7 @@ public class CreateEvent : IEndpoint
         ev.Price = request.Price;
 
 
-        // Todo: does this set id on ev-object?
+       
         db.Events.Add(ev);
         await db.SaveChangesAsync();
         return TypedResults.Ok(new Response(ev.Id));
