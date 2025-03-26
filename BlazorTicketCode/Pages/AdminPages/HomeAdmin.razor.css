@@ -27,15 +27,15 @@ h1 {
     font-weight: 600;
     border-radius: 8px;
     transition: all 0.3s ease;
-    color: #eae1df;
+    color: white;
     text-transform: uppercase;
     letter-spacing: 1px;
     box-shadow: 0 4px 15px rgba(108, 92, 231, 0.2);
 }
 
     .btn-primary:hover {
-        transform: translateY(-3px);
         box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+        transform: translateY(-5px);
     }
 
 .card {

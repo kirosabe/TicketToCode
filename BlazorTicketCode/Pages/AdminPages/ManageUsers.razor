@@ -1,0 +1,150 @@
+﻿@page "/admin/edit/users"
+@inject NavigationManager Navigation
+@inject HttpClient Http
+
+<div class="admin-page">
+    <div class="container-fluid mt-4">
+        <h1 class="text-center">Manage Users</h1>
+
+        @if (!string.IsNullOrEmpty(updateMessage))
+        {
+            <div class="alert @updateMessageClass alert-dismissible fade show mt-3" role="alert">
+                @updateMessage
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+
+        @if (users == null)
+        {
+            <p class="text-center"><em>Loading users...</em></p>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-striped shadow-sm rounded mt-3">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in users)
+                        {
+                            <tr>
+                                <td>@user.Id</td>
+                                <td>
+                                    <InputText @bind-Value="user.Username" class="form-control" />
+                                </td>
+                                <td>
+                                    <InputSelect @bind-Value="user.Role" class="form-select">
+                                        <option value="User">User</option>
+                                        <option value="Admin">Admin</option>
+                                    </InputSelect>
+                                </td>
+                                <td>
+                                    <button class="btn btn-success btn-sm me-2" @onclick="() => UpdateUser(user)">
+                                        <i class="bi bi-save"></i> Save
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" @onclick="() => ConfirmDelete(user.Id)">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        @if (showConfirmDelete)
+        {
+            <div class="modal-overlay">
+                <div class="modal-content">
+                    <h4>Confirm Deletion</h4>
+                    <p>Are you sure you want to delete this user?</p>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-danger" @onclick="DeleteUser">Yes, Delete</button>
+                        <button class="btn btn-secondary" @onclick="() => showConfirmDelete = false">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private List<UserResponse>? users;
+    private bool showConfirmDelete = false;
+    private int userToDelete;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUsers();
+    }
+
+    private async Task LoadUsers()
+    {
+        try
+        {
+            var response = await Http.GetAsync("https://localhost:7206/auth/users");
+            if (response.IsSuccessStatusCode)
+            {
+                users = await response.Content.ReadFromJsonAsync<List<UserResponse>>();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading users: {ex.Message}");
+        }
+    }
+
+    private string updateMessage = string.Empty;
+    private string updateMessageClass = "alert-success";
+
+    private async Task UpdateUser(UserResponse user)
+    {
+        var response = await Http.PutAsJsonAsync($"https://localhost:7206/auth/users/{user.Id}", user);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            updateMessage = "Error updating user. Please try again.";
+            updateMessageClass = "alert-danger";
+        }
+        else
+        {
+            updateMessage = "User updated successfully!";
+            updateMessageClass = "alert-success";
+        }
+    }
+
+    private void ConfirmDelete(int id)
+    {
+        userToDelete = id;
+        showConfirmDelete = true;
+    }
+
+    private async Task DeleteUser()
+    {
+        var response = await Http.DeleteAsync($"https://localhost:7206/auth/users/{userToDelete}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            users = users?.Where(u => u.Id != userToDelete).ToList();
+            showConfirmDelete = false;
+        }
+        else
+        {
+            Console.WriteLine("Error deleting user");
+        }
+    }
+
+    private class UserResponse
+    {
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Role { get; set; }
+    }
+}

@@ -1,0 +1,62 @@
+﻿@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Web
+@using TicketToCode.Core.Models;
+@page "/booking/confirmation"
+@inject HttpClient Http
+@inject BookingState BookingState
+
+<PageTitle>Booking Confirmation</PageTitle>
+
+<div class="confirmation-page">
+    <div class="row justify-content-center">
+        <div class="form-container text-center">
+            @if (BookingState.CurrentBooking is not null)
+            {
+                <h1 class="confirmation-title">Thank you for your booking, @BookingState.CurrentBooking.FirstName @BookingState.CurrentBooking.LastName!</h1>
+                <p class="text-muted">See your booking details below:</p>
+
+                <div class="booking-details">
+                    <p><strong>Email:</strong> @BookingState.CurrentBooking.Email</p>
+                    <p><strong>Phone:</strong> @BookingState.CurrentBooking.Phone</p>
+                    <p><strong>Event:</strong> @GetEventName(BookingState.CurrentBooking.EventId)</p>
+                    <p><strong>Number of tickets:</strong> @BookingState.CurrentBooking.Tickets</p>
+                </div>
+
+                <a href="/user/home" class="btn btn-primary mt-3">See your tickets</a>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    <p>No booking information found.</p>
+                </div>
+                <a href="/booking" class="btn btn-secondary mt-3">Go to Booking Page</a>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Event> events = new();
+
+    private string GetEventName(int eventId)
+    {
+        var found = events.FirstOrDefault(e => e.Id == eventId);
+        return found?.Name ?? "Unknown event";
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var response = await Http.GetAsync("https://localhost:7206/events");
+            if (response.IsSuccessStatusCode)
+            {
+                events = await response.Content.ReadFromJsonAsync<List<Event>>() ?? new List<Event>();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Failed to fetch events: {ex.Message}");
+        }
+    }
+}

@@ -39,7 +39,7 @@ a:hover, .btn-link:hover {
 
 .btn-primary:hover {
     background: #5b4dd1;
-    transform: translateY(-2px);
+   
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
