@@ -10,7 +10,6 @@ public class UpdateEvent : IEndpoint
         .MapPut("/events/{id}", Handle)
         .WithSummary("Update an existing event");
 
-    // Request-typ för att ta emot data
     public record Request(
         string Name,
         string Description,
@@ -21,20 +20,19 @@ public class UpdateEvent : IEndpoint
         decimal Price
     );
 
-    // Response-typ
+    
     public record Response(int Id, string Message);
 
-    // Uppdateringslogik
+  
     private static async Task<IResult> Handle(int id, Request request, [FromServices] AppDbContext db)
     {
-        // Leta upp eventet i databasen
         var ev = await db.Events.FindAsync(id);
         if (ev == null)
         {
             return TypedResults.NotFound(new { Message = "Event not found" });
         }
 
-        // Uppdatera eventets fält
+        
         ev.Name = request.Name;
         ev.Description = request.Description;
         ev.Type = request.Type;
@@ -43,7 +41,6 @@ public class UpdateEvent : IEndpoint
         ev.MaxAttendees = request.MaxAttendees;
         ev.Price = request.Price;
 
-        // Spara ändringar
         await db.SaveChangesAsync();
 
         return TypedResults.Ok(new Response(ev.Id, "Event updated successfully"));

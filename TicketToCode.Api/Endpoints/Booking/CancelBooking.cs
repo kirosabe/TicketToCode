@@ -21,6 +21,6 @@ public class CancelBooking : IEndpoint
 
         db.Bookings.Remove(booking);
         await db.SaveChangesAsync();
-        return TypedResults.Ok(new { Message = "Your booking was ssuccessfully canceled" });
+        return TypedResults.Ok(new { Message = "Your booking was successfully canceled" });
     }
 }

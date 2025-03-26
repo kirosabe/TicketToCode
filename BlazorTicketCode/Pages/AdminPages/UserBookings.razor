@@ -1,6 +1,7 @@
 @page "/admin/user-bookings"
 @using TicketToCode.Core.Models
 @inject HttpClient Http
+@inject IJSRuntime JSRuntime
 
 <PageTitle>User Bookings</PageTitle>
 
@@ -32,6 +33,7 @@
                             <th>Phone</th>
                             <th>Tickets</th>
                             <th>Payment Method</th>
+                            <th>Cancel booking</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,6 +47,7 @@
                                 <td>@booking.Phone</td>
                                 <td>@booking.Tickets</td>
                                 <td>@booking.PaymentMethod</td>
+                                <td><button class="btn btn-danger" @onclick="() => ConfirmCancel(booking.BookingId)">Cancel</button></td>
                             </tr>
                         }
                     </tbody>
@@ -56,6 +59,7 @@
 
 @code {
     private List<BookingResponse>? bookings;
+    private string? feedbackMessage;
 
     protected override async Task OnInitializedAsync()
     {
@@ -66,6 +70,34 @@
         catch (Exception ex)
         {
             Console.WriteLine($"Error fetching bookings: {ex.Message}");
+        }
+    }
+
+    // Asks user to comfirm cancel before canceling
+    private async Task ConfirmCancel(int id)
+    {
+        bool confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to cancel this booking?");
+        if (confirmed)
+        {
+            await CancelBooking(id);
+        }
+    }
+    // Cancels booking and removes from list
+    private async Task CancelBooking(int id)
+    {
+        var response = await Http.DeleteAsync($"bookings/{id}/cancel");
+        if (response.IsSuccessStatusCode)
+        {
+            var bookingToRemove = bookings.FirstOrDefault(b => b.BookingId == id);
+            if (bookingToRemove != null)
+            {
+                bookings.Remove(bookingToRemove);
+                feedbackMessage = "Booking successfully canceled!";
+            }
+        }
+        else
+        {
+            feedbackMessage = "Failed to cancel booking. Please try again.";
         }
     }
 
