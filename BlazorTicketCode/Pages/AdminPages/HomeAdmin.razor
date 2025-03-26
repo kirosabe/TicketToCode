@@ -10,15 +10,15 @@
 <div class="welcome-container">
     <h1 class="display-4 fw-bold">Welcome Admin!</h1>
     <p class="lead mb-4">Manage and create amazing events effortlessly.</p>
-    <button class="btn btn-primary btn-lg shadow-lg" @onclick="GoToCreateEvent">Create an Event</button>
-    <button class="btn btn-primary btn-lg shadow-lg" @onclick="GoToStatistics">Statistics</button>
-    <button class="btn btn-primary btn-lg shadow-lg" @onclick="ViewUserBookings">View User Bookings</button>
-    <button class="btn btn-primary btn-lg shadow-lg" @onclick="ManageUsers">Manage Users</button>
+    <button class="btn btn-primary btn-lg" @onclick="GoToCreateEvent">Create an Event</button>
+    <button class="btn btn-primary btn-lg" @onclick="GoToStatistics">Statistics</button>
+    <button class="btn btn-primary btn-lg" @onclick="ViewUserBookings">View User Bookings</button>
+    <button class="btn btn-primary btn-lg" @onclick="ManageUsers">Manage Users</button>
 </div>
 
 
+<h1 class="display-4 fw-bold">Manage Upcoming Events</h1>
 <section class="container mt-5">
-    <h2 class="display-4 fw-bold">Manage Upcoming Events</h2>
     <div class="row">
         @if (events == null)
         {
