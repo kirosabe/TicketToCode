@@ -10,10 +10,12 @@ h1 {
     font-size: 4rem;
     margin-bottom: 0.5rem;
     color: #1C3D5A;
-    font-weight: 800;
     letter-spacing: 2px;
     position: relative;
     z-index: 2;
+    font-weight: 700;
+    text-transform: uppercase;
+
 }
 
 .create-container {
