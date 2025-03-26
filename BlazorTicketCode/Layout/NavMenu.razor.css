@@ -15,7 +15,7 @@ h1 {
     background: linear-gradient(135deg, #0A192F, #1C3D5A, #4A7DB3);
     color: white;
     padding: 12px 25px;
-    border-radius: 2px; /* Mjuka kanter för en mer elegant look */
+    border-radius: 2px; /* Mjuka kanter fÃ¶r en mer elegant look */
     box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3); /* Djup och lyft */
     transition: all 0.4s ease-in-out;
 }
@@ -44,4 +44,72 @@ h1 {
     transition: all 0.3s ease-in-out;
 }
 
-    
+
+@media (min-width: 641px) {
+    .navbar-toggler {
+        display: none;
+    }
+
+    .collapse {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+
+    .nav-scrollable {
+        /* Allow sidebar to scroll for tall menus */
+        height: calc(100vh - 3.5rem);
+        overflow-y: auto;
+    }
+}
+
+.clear-search {
+    padding: 0.25rem 0.5rem;
+    margin-right: -1px;
+    border-radius: 0;
+    z-index: 5;
+}
+
+.clear-search:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.clear-search svg {
+    transition: transform 0.2s ease;
+}
+
+.clear-search:hover svg {
+    transform: scale(1.2);
+}
+
+.input-group .form-control {
+    border-radius: 4px 0 0 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.input-group .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.input-group .form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.input-group .btn-outline-light {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.input-group .btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.input-group .btn-outline-light:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
