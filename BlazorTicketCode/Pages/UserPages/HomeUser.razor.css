@@ -5,19 +5,6 @@
     box-sizing: border-box
 }
 
-body {
-    background-color: #DADDE6 !important;
-    font-family: arial
-}
-
-.fl-left {
-    float: left
-}
-
-.fl-right {
-    float: right
-}
-
 h1 {
     margin: 1rem;
     text-transform: uppercase;
