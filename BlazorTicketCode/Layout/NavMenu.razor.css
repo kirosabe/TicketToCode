@@ -67,18 +67,6 @@ h1 {
         display: contents;
     }
 }
-@media (max-width: 1050px) {
-
-    .search-container {
-        display: none;
-    }
-}
-@media (max-width: 620px) {
-
-    h1 {
-        display: none;
-    }
-}
 
 .clear-search {
     padding: 0.25rem 0.5rem;
@@ -131,3 +119,22 @@ h1 {
     border-radius: 0 4px 4px 0;
 }
 
+@media (max-width: 1050px) {
+
+    .search-container {
+        display: none;
+    }
+}
+@media (max-width: 750px) {
+
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 630px) {
+
+    h1 {
+        display: none;
+    }
+}

@@ -8,11 +8,12 @@ html, body {
 }
 
 h1 {
-    text-align: center;
+    text-align: left;
     font-size: 3rem;
     font-weight: bold;
-    margin: 40px;
+    margin: 10px;
     color: #1C3D5A;
+    margin-left: 2rem;
 }
 
 h1:focus {

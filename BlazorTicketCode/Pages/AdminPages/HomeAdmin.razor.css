@@ -4,7 +4,7 @@
 }
 .welcome-container {
     margin: 0 auto;
-    padding: 4rem 2rem;
+    padding: 3rem 1.2rem;
     color: #424b54;
     position: relative;
     overflow: hidden;
@@ -12,18 +12,22 @@
 }
 
 h1 {
-    font-size: 3rem;
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-
+}
+p.lead.mb-4 {
+    font-size: 1.5rem;
+    text-align: left;
+    margin-left: 2rem;
 }
 
 .btn-primary {
+    margin: 0.5rem;
     background: #f7b267;
     border: none;
-    padding: 1rem 2rem;
-    font-size: 1.1rem;
+    padding: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 600;
     border-radius: 8px;
     transition: all 0.3s ease;
@@ -66,3 +70,42 @@ footer {
     text-align: center;
     margin-top: 2rem;
 }
+@media (max-width: 1050px) {
+
+    .btn-primary {
+        background: #f7b267;
+        border: none;
+        padding: 0.8rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin: 5px;
+    }
+}
+
+@media (max-width: 750px) {
+    p.lead.mb-4 {
+        display: none;
+    }
+    .welcome-container {
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .btn-primary {
+        font-size: 0.7rem;
+        padding: 5px;
+        height: 3rem;
+        width: 8rem;
+    }
+    h1 {
+        font-size: 1.5rem;
+    }
+}
+@media (max-width: 630px) {
+    h1 {
+        display: none;
+    }
+} 
+
