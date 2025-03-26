@@ -272,3 +272,40 @@ article {
         font-weight: bold;
     }
 }
+
+/*---------------------------------------------------------------------------*/
+.access-denied {
+    max-width: 500px;
+    margin: 100px auto;
+    padding: 2rem;
+    background-color: #fff3f3;
+    border: 1px solid #ffcccc;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+    .access-denied h3 {
+        color: #cc0000;
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .access-denied p {
+        color: #333;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .access-denied a {
+        color: #cc0000;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+        .access-denied a:hover {
+            color: #990000;
+            text-decoration: underline;
+        }
