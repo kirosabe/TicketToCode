@@ -1,0 +1,111 @@
+﻿body, admin-page {
+    background: red;
+   
+}
+.welcome-container {
+    margin: 0 auto;
+    padding: 1rem;
+    color: #424b54;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding-bottom: 0;
+}
+
+h1 {
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+p.lead.mb-4 {
+    font-size: 1.5rem;
+    text-align: left;
+    margin-left: 2rem;
+}
+
+.btn-primary {
+    margin: 0.5rem;
+    background: #f7b267;
+    border: none;
+    padding: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+    .btn-primary:hover {
+        box-shadow: 0 8px 25px rgba(108, 92, 231, 0.4);
+        transform: translateY(-5px);
+    }
+
+.card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .card img {
+        max-height: 200px;
+        object-fit: cover;
+    }
+
+.card-body {
+    padding: 1.5rem;
+}
+
+footer {
+    background: #2d3436;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+@media (max-width: 1050px) {
+
+    .btn-primary {
+        background: #f7b267;
+        border: none;
+        padding: 0.8rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin: 5px;
+    }
+}
+
+@media (max-width: 750px) {
+    p.lead.mb-4 {
+        display: none;
+    }
+    .welcome-container {
+        padding: 0.8rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .btn-primary {
+        font-size: 0.7rem;
+        padding: 3px;
+        height: 3rem;
+        width: 10rem;
+    }
+    h1 {
+        font-size: 1.5rem;
+    }
+}
+@media (max-width: 630px) {
+    h1 {
+        display: none;
+    }
+} 
+

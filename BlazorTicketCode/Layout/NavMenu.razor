@@ -10,7 +10,7 @@
                 <!-- Sökfält -->
                 <div class="search-container ms-auto me-3">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Sök events..."
+                        <input type="text" class="form-control" placeholder="Search event..."
                                @bind="searchTerm"
                                @bind:event="oninput"
                                @onkeyup="HandleKeyPress" />
@@ -40,13 +40,13 @@
                     </NavLink>
                 </div>
 
-                @*  <AuthorizeView Roles="User"> *@
+                <AuthorizeView Roles="User">
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="booking">
                         <span class="bi bi-plus-square-fill-nav-menu"></span> Tickets
                     </NavLink>
                 </div>
-                @*</AuthorizeView> *@
+                </AuthorizeView>
             </div>
 
             @* Profile dropdown menu*@
@@ -82,9 +82,6 @@
         </nav>
     </div>
 </div>
-
-               
-
             
 @code {
     private bool showDropdown = false;
@@ -150,7 +147,6 @@
     private void ClearSearch()
     {
         searchTerm = "";
-        Navigation.NavigateTo("/events");
     }
 
     public void Dispose()

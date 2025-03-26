@@ -1,6 +1,7 @@
 ﻿@page "/admin/home"
 @inject NavigationManager Navigation
 @inject HttpClient Http
+@attribute [Authorize(Roles = "Admin")]
 
 <PageTitle>Homepage Admin</PageTitle>
 
@@ -17,7 +18,7 @@
 
 
 <section class="container mt-5">
-    <h2 class="text-center mb-4">Manage Upcoming Events</h2>
+    <h2 class="display-4 fw-bold">Manage Upcoming Events</h2>
     <div class="row">
         @if (events == null)
         {

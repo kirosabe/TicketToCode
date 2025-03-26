@@ -209,11 +209,11 @@ article {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin: 40px;
+    margin: 5px;
     flex-wrap: wrap;
 }
 
-.filter-btn, .sort-btn {
+.sort-btn {
     padding: 10px 15px;
     font-size: 1rem;
     border: none;
@@ -222,22 +222,6 @@ article {
     transition: all 0.3s ease;
     font-weight: bold;
 }
-
-.filter-btn {
-    background: #f7b267;
-    color: white;
-    border: 2px solid transparent;
-}
-
-    .filter-btn:hover {
-        background: #f7cfa3;
-        transform: translateY(-2px);
-    }
-
-    .filter-btn.active {
-        background: #f7b267;
-        color: black;
-    }
 
 .sort-btn {
     background: #1C3D5A ;
@@ -275,4 +259,16 @@ article {
 .btn-outline-success.active {
     background: #f7b267;
     border: none;
+}
+
+@media (max-width: 1050px) {
+    .sort-btn {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: bold;
+    }
 }

@@ -1,17 +1,17 @@
 ﻿@page "/events/{category?}"
 @inject HttpClient Http
 @inject NavigationManager Navigation
+<PageTitle>Events</PageTitle>
+<div class="welcome-container">
+<h1 class="display-4 fw-bold">@(selectedCategory != null ? $"{selectedCategory} Events" : "All Events")</h1>
 
-<h1>@(selectedCategory != null ? $"{selectedCategory} Events" : "All Events")</h1>
+        <button class="btn btn-primary btn-lg @(selectedCategory == null ? "active" : "")" @onclick="() => NavigateToCategory(null)">All</button>
+        <button class="btn btn-primary btn-lg @(selectedCategory == EventType.Concert ? "active" : "")" @onclick="() => NavigateToCategory(EventType.Concert)">Concert</button>
+    <button class="btn btn-primary btn-lg @(selectedCategory == EventType.Festival ? "active" : "")" @onclick="() => NavigateToCategory(EventType.Festival)">Festival</button>
+        <button class="btn btn-primary btn-lg @(selectedCategory == EventType.Theatre ? "active" : "")" @onclick="() => NavigateToCategory(EventType.Theatre)">Theatre</button>
+        <button class="btn btn-primary btn-lg @(selectedCategory == EventType.Other ? "active" : "")" @onclick="() => NavigateToCategory(EventType.Other)">Other</button>
 
-<div class="button-container">
-    <button class="filter-btn @(selectedCategory == null ? "active" : "")" @onclick="() => NavigateToCategory(null)">All</button>
-    <button class="filter-btn @(selectedCategory == EventType.Concert ? "active" : "")" @onclick="() => NavigateToCategory(EventType.Concert)">Concert</button>
-    <button class="filter-btn @(selectedCategory == EventType.Festival ? "active" : "")" @onclick="() => NavigateToCategory(EventType.Festival)">Festival</button>
-    <button class="filter-btn @(selectedCategory == EventType.Theatre ? "active" : "")" @onclick="() => NavigateToCategory(EventType.Theatre)">Theatre</button>
-    <button class="filter-btn @(selectedCategory == EventType.Other ? "active" : "")" @onclick="() => NavigateToCategory(EventType.Other)">Other</button>
 </div>
-
 
 <div class="button-container">
     <button class="sort-btn" @onclick="@(async () => await SortEvents("asc"))">Upcoming Soon </button>
