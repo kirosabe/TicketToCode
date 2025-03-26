@@ -11,7 +11,7 @@
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     width: 90%;
-    max-width: 500px; 
+    max-width: 700px; 
     text-align: center;
 }
 
@@ -19,18 +19,35 @@
     font-size: 2rem;
     font-weight: bold;
     color: #1C3D5A;
+    margin:0;
 }
 
 .booking-details {
     text-align: left;
     font-size: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     margin-top: 1rem;
 }
 
     .booking-details p {
-        margin-bottom: 0.5rem;
-        color: #2d3436;
+        margin: 0.75rem 0;
+        font-size: 1rem;
+        color: #343a40;
     }
+
+    .booking-details strong {
+        display: inline-block;
+        width: 160px;
+        color: #495057;
+    }
+
+.text-muted {
+    text-align: left;
+    margin-top: 1rem;
+}
 
 .btn-primary {
     background: linear-gradient(135deg, #0A192F, #1C3D5A, #4A7DB3);
