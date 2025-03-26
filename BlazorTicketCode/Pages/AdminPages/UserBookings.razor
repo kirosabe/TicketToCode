@@ -1,0 +1,83 @@
+@page "/admin/user-bookings"
+@using TicketToCode.Core.Models
+@inject HttpClient Http
+
+<PageTitle>User Bookings</PageTitle>
+
+<div class="admin-page">
+    <div class="container-fluid mt-4">
+        <h1 class="text-center">User Bookings</h1>
+
+        @if (bookings == null)
+        {
+            <div class="text-center mt-4">
+                <div class="spinner-border text-primary" role="status"></div>
+                <p>Loading bookings...</p>
+            </div>
+        }
+        else if (!bookings.Any())
+        {
+            <p class="text-center mt-4 text-muted">No bookings found.</p>
+        }
+        else
+        {
+            <div class="table-responsive mt-3">
+                <table class="table table-striped shadow-sm rounded">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Event</th>
+                            <th>Customer</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Tickets</th>
+                            <th>Payment Method</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var booking in bookings)
+                        {
+                            <tr>
+                                <td>@booking.BookingId</td>
+                                <td>@booking.EventName</td>
+                                <td>@booking.FirstName @booking.LastName</td>
+                                <td>@booking.Email</td>
+                                <td>@booking.Phone</td>
+                                <td>@booking.Tickets</td>
+                                <td>@booking.PaymentMethod</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private List<BookingResponse>? bookings;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            bookings = await Http.GetFromJsonAsync<List<BookingResponse>>("https://localhost:7206/bookings");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error fetching bookings: {ex.Message}");
+        }
+    }
+
+    private class BookingResponse
+    {
+        public int BookingId { get; set; }
+        public string EventName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public int Tickets { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
+    }
+}
