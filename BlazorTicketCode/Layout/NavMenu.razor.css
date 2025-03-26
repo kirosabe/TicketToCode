@@ -20,6 +20,10 @@ h1 {
     box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3); 
     transition: all 0.4s ease-in-out;
 }
+.nav-item{
+    padding-top: 10px;
+}
+
 .nav-item:hover {
     color: #f7b267;
 }
@@ -46,7 +50,7 @@ h1 {
 }
 
 
-@media (min-width: 641px) {
+@media (min-width: 1050px) {
     .navbar-toggler {
         display: none;
     }
@@ -58,6 +62,21 @@ h1 {
     .nav-scrollable {
         height: calc(100vh - 3.5rem);
         overflow-y: auto;
+    }
+    .search-container {
+        display: contents;
+    }
+}
+@media (max-width: 1050px) {
+
+    .search-container {
+        display: none;
+    }
+}
+@media (max-width: 620px) {
+
+    h1 {
+        display: none;
     }
 }
 
