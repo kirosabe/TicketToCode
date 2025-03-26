@@ -8,8 +8,7 @@
 
 
 <div class="welcome-container">
-    <h1 class="display-4 fw-bold">Welcome Admin!</h1>
-    <p class="lead mb-4">Manage and create amazing events effortlessly.</p>
+    <h1 class="display-4 text-center fw-bold">Welcome Admin!</h1>
     <button class="btn btn-primary btn-lg" @onclick="GoToCreateEvent">Create an Event</button>
     <button class="btn btn-primary btn-lg" @onclick="GoToStatistics">Statistics</button>
     <button class="btn btn-primary btn-lg" @onclick="ViewUserBookings">View User Bookings</button>
@@ -17,7 +16,7 @@
 </div>
 
 
-<h1 class="display-4 fw-bold">Manage Upcoming Events</h1>
+<h1 class="display-4 text-center fw-bold">Manage Upcoming Events</h1>
 <section class="container mt-5">
     <div class="row">
         @if (events == null)
