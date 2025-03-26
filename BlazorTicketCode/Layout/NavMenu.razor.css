@@ -11,12 +11,11 @@ h1 {
 
 
 .nav-top-row {
-    /*  background: linear-gradient(135deg, #5A5CCF, #7678ED, #A5A6F6); /* Mjuk gradient */
     background: linear-gradient(135deg, #0A192F, #1C3D5A, #4A7DB3);
     color: white;
     padding: 12px 25px;
-    border-radius: 2px; /* Mjuka kanter för en mer elegant look */
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3); /* Djup och lyft */
+    border-radius: 2px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3); 
     transition: all 0.4s ease-in-out;
 }
 .nav-item:hover {
@@ -51,12 +50,10 @@ h1 {
     }
 
     .collapse {
-        /* Never collapse the sidebar for wide screens */
         display: block;
     }
 
     .nav-scrollable {
-        /* Allow sidebar to scroll for tall menus */
         height: calc(100vh - 3.5rem);
         overflow-y: auto;
     }
