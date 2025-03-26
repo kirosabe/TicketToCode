@@ -4,6 +4,7 @@
 }
 .welcome-container {
     margin: 0 auto;
+    margin-bottom: 3rem;
     padding: 1rem 1rem 1rem 0;
     color: #424b54;
     position: relative;
