@@ -7,6 +7,8 @@
 @inject NavigationManager Navigation
 @attribute [Authorize(Roles = "Admin")]
 
+<PageTitle>Create Event</PageTitle>
+
 <div class="create-container ms-4" >
     <h1>@(EventId.HasValue && EventId.Value > 0 ? "Edit Event" : "Create Event")</h1>
 

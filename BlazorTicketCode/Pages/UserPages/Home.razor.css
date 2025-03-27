@@ -19,3 +19,47 @@
     height: 200px; 
     object-fit: cover; 
 }
+
+/* -----------------------------------------------------------------*/
+/* ---------------------------- Banner -----------------------------*/
+/* -----------------------------------------------------------------*/
+
+.hero-banner {
+    background: linear-gradient(50deg, #0A192F, #1C3D5A, #4A7DB3);
+    color: #f8c35a;
+    border-bottom: 2px solid #f8c35a;
+    margin: 0;
+    padding: 1.5rem 1rem;
+    text-align: center;
+}
+
+    .hero-banner h2 {
+        font-weight: 700;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .hero-banner p {
+        font-size: 1.1rem;
+        color: #fff;
+    }
+
+@media (max-width: 768px) {
+    .hero-banner h2 {
+        font-size: 1.5rem;
+    }
+
+    .hero-banner p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-banner h2 {
+        font-size: 1.2rem;
+    }
+
+    .hero-banner p {
+        font-size: 0.95rem;
+    }
+}

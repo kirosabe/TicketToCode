@@ -18,11 +18,27 @@
     margin-top: 0.5rem;
 }
 
-.bg-primary,
-.bg-success,
-.bg-info,
-.bg-warning {
+.bg-total-bookings,
+.bg-total-events,
+.bg-total-tickets,
+.bg-total-revenue {
     border-radius: 1rem;
+}
+
+.bg-total-bookings {
+    background-color: #0D1F36;
+}
+
+.bg-total-events {
+    background-color: #2A4E73;
+}
+
+.bg-total-tickets {
+    background-color: #5A88B9;
+}
+
+.bg-total-revenue {
+    background-color: #F8C35A;
 }
 .container-statistics {
     margin: 0 auto;
@@ -49,9 +65,4 @@ h1 {
         font-size: 1.5rem;
     }
 }
-@media (max-width: 630px) {
-    h1 {
-        display: none;
-    }
-} 
 

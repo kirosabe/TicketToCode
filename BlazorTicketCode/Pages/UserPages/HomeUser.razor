@@ -3,7 +3,7 @@
 @inject HttpClient Http
 @inject AuthStateService Auth
 @inject IJSRuntime JSRuntime
-
+<PageTitle>My homepage</PageTitle>
 <section class="container">
     <h1>Your tickets</h1>
     @if (!string.IsNullOrEmpty(feedbackMessage))
@@ -45,7 +45,7 @@
                                 <div class="even-info">
                                     <i class="fa fa-map-marker"></i>
                                     <p>
-                                        Location <!-- Add location? -->
+                                        A Golden Experience Awaits
                                     </p>
                                 </div>
                                 <a @onclick="() => ConfirmCancel(booking.BookingId)">Cancel</a>
